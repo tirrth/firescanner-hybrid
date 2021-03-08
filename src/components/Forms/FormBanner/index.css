@@ -1,0 +1,35 @@
+.Banner {
+  text-align: center;
+}
+
+.Banner img {
+  width: 155px;
+}
+
+.Banner h1,
+.Banner p {
+  margin: 0 30px;
+  margin-top: 10px;
+  padding: 0;
+}
+.Banner h1 {
+  font-weight: 800;
+}
+.Banner p {
+  color: #808080;
+}
+
+@media screen and (max-width: 500px) {
+  .Banner img {
+    width: 130px;
+  }
+
+  .Banner p {
+    display: none;
+  }
+
+  .Banner h1 {
+    line-height: 32px;
+    font-size: 26px;
+  }
+}

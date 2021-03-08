@@ -1,0 +1,219 @@
+.profileHamburger {
+  width: 66px;
+  height: 62px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #f0f0f0;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 100%;
+  z-index: 10000;
+  box-shadow: 0px 0px 10px #f0f0f0;
+}
+
+.input::-webkit-scrollbar {
+  /*To make Scrollbar invisible*/
+  height: 0;
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+.inputProfile {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow-y: hidden;
+}
+
+.placeholderProfile {
+  text-align: center;
+  font-size: 13px;
+  left: 5%;
+  transform: translate(-5%, -38%);
+}
+
+.profilePageBaseMain {
+  height: 100vh;
+  width: 100%;
+  background-color: #fcfcfc;
+  overflow-x: scroll;
+  transition: all 250ms ease-in-out;
+}
+
+.visibleProfilePageBaseMain {
+  pointer-events: none;
+  filter: blur(6px);
+}
+
+.profileForm {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.editFontawesomeBtn,
+.deleteFontawesomeBtn,
+.signOutFontawesomeBtn {
+  cursor: default !important;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  word-spacing: 1px;
+  font-weight: 500;
+  transition: all 250ms ease-in-out;
+}
+
+.ProfileEditDelBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.editFontawesomeBtn {
+  margin-right: 10px;
+  background-color: #576ef1;
+}
+
+.editFontawesomeBtn:hover {
+  background-color: #2242fa;
+}
+.deleteFontawesomeBtn {
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #fd6767;
+}
+.deleteFontawesomeBtn:hover {
+  background-color: #fd2e2e;
+}
+
+.signOutFontawesomeBtn {
+  margin-left: 10px;
+  background-color: #576ef1;
+}
+.signOutFontawesomeBtn:hover {
+  background-color: #2242fa;
+}
+.deleteConfirmationBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 150px;
+  background-color: #576ef1;
+  text-align: center;
+  border-radius: 8px;
+  transition: all 250ms ease-in-out;
+}
+
+.visibleDelConfirmationBox {
+  visibility: visible;
+  opacity: 1;
+}
+
+.deleteConfirmationBoxHeaderMainP,
+.deleteConfirmationBoxHeaderSubP {
+  color: #ffffff;
+  margin: 0;
+  padding: 0;
+}
+
+.deleteConfirmationBoxHeaderMainP {
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: -4px;
+}
+
+.deleteConfirmationBoxHeaderSubP {
+  font-size: 14px;
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.deleteConfirmationBoxBtn {
+  display: flex;
+  margin-top: 25px;
+}
+
+.deleteConfirmationBoxBtnNo,
+.deleteConfirmationBoxBtnYes {
+  width: 120px;
+  height: 30px;
+  font-size: 14px;
+  background-color: #fff;
+  border-radius: 6px;
+  margin: 0 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deleteConfirmationBoxBtnNo {
+  width: 70px;
+}
+
+.deleteConfirmationBoxBtnYes {
+  background-color: #fd6767;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 950px) {
+  .grp-last {
+    margin-bottom: 30px !important;
+  }
+  .profileForm {
+    padding-bottom: 0px;
+    margin-bottom: 80px;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .deleteConfirmationBox {
+    width: 300px;
+    height: 150px;
+  }
+
+  .input {
+    font-size: 13px;
+  }
+  .placeholder {
+    font-size: 12px;
+  }
+
+  .ProfileInputBtn {
+    position: unset;
+    bottom: 0;
+    left: 0;
+    transform: none;
+    margin-top: 10px;
+  }
+
+  .editBtn {
+    margin-left: 0px;
+    margin-top: 6px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .profileForm {
+    padding-bottom: 10px;
+    margin-bottom: 80px;
+  }
+}

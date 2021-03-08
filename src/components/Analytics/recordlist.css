@@ -1,0 +1,141 @@
+.recordListSectionMain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #ffffff;
+}
+
+.recordListPDFInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 26px;
+}
+
+table {
+  margin-bottom: 20px;
+}
+
+.recordListSectionMainInfoDR {
+  margin-top: 40px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.recordListSectionMainInfoClg {
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.recordListSectionMainInfoRest {
+  margin-left: 4px;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.recordListSectionMainInfoTPA {
+  margin-top: 10px;
+}
+
+.recordListSectionMainInfoFac,
+.recordListSectionMainInfoDept,
+.recordListSectionMainInfoSemDivShift,
+.recordListSectionMainInfoSub,
+.recordListSectionMainInfoTotal,
+.recordListSectionMainInfoPresent,
+.recordListSectionMainInfoAbsent,
+.recordListSectionMainInfoDate,
+.recordListSectionMainInfoRandom,
+.recordListSectionMainInfoRoom {
+  display: flex;
+}
+
+.recordListSectionMainInfoFac p:first-child,
+.recordListSectionMainInfoDept p:first-child,
+.recordListSectionMainInfoSemDivShift p:first-child,
+.recordListSectionMainInfoSub p:first-child,
+.recordListSectionMainInfoTotal p:first-child,
+.recordListSectionMainInfoPresent p:first-child,
+.recordListSectionMainInfoAbsent p:first-child,
+.recordListSectionMainInfoDate p:first-child,
+.recordListSectionMainInfoRandom p:first-child,
+.recordListSectionMainInfoRoom p:first-child {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.recordListSectionMainInfoFac p,
+.recordListSectionMainInfoDept p,
+.recordListSectionMainInfoSemDivShift p,
+.recordListSectionMainInfoSub p,
+.recordListSectionMainInfoTotal p,
+.recordListSectionMainInfoPresent p,
+.recordListSectionMainInfoAbsent p,
+.recordListSectionMainInfoDate p,
+.recordListSectionMainInfoRandom p,
+.recordListSectionMainInfoRoom p {
+  font-size: 15px;
+  margin: 0;
+  padding: 0;
+  text-transform: capitalize;
+}
+.recordListSectionMainEPBtn {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.recordListSectionMainPresentBtn,
+.recordListSectionMainAbsentBtn,
+.recordListSectionMainExitBtn,
+.recordListSectionMainPrintBtn {
+  cursor: default !important;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  margin: 0 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+}
+
+.recordListSectionMainExitBtn,
+.recordListSectionMainAbsentBtn {
+  background-color: #ea3c53;
+}
+
+.recordListSectionMainPrintBtn,
+.recordListSectionMainPresentBtn {
+  background-color: #3b75f3;
+}
+/*recordListSectionMainTable*/
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px 12px;
+}
+th {
+  background-color: #f7f7f7;
+}
+
+tr {
+  font-size: 15px;
+}
+
+.redColorAbsentIndicatorTr {
+  color: #ff0000;
+  background-color: rgba(255, 0, 0, 0.09) !important;
+}
+
+.redColorAbsentIndicatorTd {
+  border-color: #ff0000;
+}

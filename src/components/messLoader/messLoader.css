@@ -1,0 +1,87 @@
+/* MESH LOADER */
+
+.mesh-loader {
+  overflow: hidden;
+  height: inherit;
+  width: inherit;
+}
+.circle {
+  width: 6px;
+  height: 6px;
+  position: absolute;
+  border-radius: 50%;
+  margin: -3px;
+  -webkit-animation: mesh 2s ease-in-out infinite -1s;
+  animation: mesh 2s ease-in-out infinite -1s;
+}
+
+.mesh-loader > div .circle:last-child {
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+}
+
+.mesh-loader > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.mesh-loader > div:last-child {
+  -webkit-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  transform: rotate(90deg);
+}
+
+@-webkit-keyframes mesh {
+  0% {
+    -webkit-transform-origin: 50% -50%;
+    transform-origin: 50% -50%;
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  50% {
+    -webkit-transform-origin: 50% -50%;
+    transform-origin: 50% -50%;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+  50.00001% {
+    -webkit-transform-origin: 50% 150%;
+    transform-origin: 50% 150%;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform-origin: 50% 150%;
+    transform-origin: 50% 150%;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes mesh {
+  0% {
+    -webkit-transform-origin: 50% -50%;
+    transform-origin: 50% -50%;
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  50% {
+    -webkit-transform-origin: 50% -50%;
+    transform-origin: 50% -50%;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+  50.00001% {
+    -webkit-transform-origin: 50% 150%;
+    transform-origin: 50% 150%;
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform-origin: 50% 150%;
+    transform-origin: 50% 150%;
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

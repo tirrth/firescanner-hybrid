@@ -1,0 +1,358 @@
+.analyticsBtn {
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  overflow-y: scroll;
+  position: relative;
+}
+
+.analyticsBtnContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: auto;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.overallAnalyticsBtn,
+.studentsAnalyticsBtn,
+.orAnalyticsDiv {
+  width: 115px;
+  height: 115px;
+  border-radius: 50%;
+  background-color: white;
+  border: solid 2px #4885ed;
+  color: #454545;
+  font-weight: 500;
+  font-size: 18px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.overallAnalyticsBtn:hover,
+.studentsAnalyticsBtn:hover {
+  background-color: #4885ed;
+  color: white;
+  transition: all 150ms ease-in;
+}
+
+.orAnalyticsDiv {
+  cursor: default;
+  width: 40px;
+  height: 40px;
+  color: #ffffff;
+  border: none;
+  font-weight: 400;
+  font-size: 13px;
+  background-color: #db3236;
+  margin: 20px auto;
+}
+
+.AnalyticsRecordListCardAverage,
+.AnalyticsRecordListCardAverageGreen,
+.AnalyticsRecordListCardAverageRed {
+  height: 100%;
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: #4885ed;
+}
+
+.AnalyticsRecordListCardAverageGreen {
+  color: #22b43c;
+}
+
+.AnalyticsRecordListCardAverageRed {
+  color: #db3236;
+}
+/*Student Information Card*/
+.AttendeeBaseMainContentAnalytics {
+  height: 100% !important;
+  margin-top: 0px !important;
+}
+
+.StudentAttendanceCardAnalytics:first-child {
+  margin-top: 69px !important;
+}
+
+.StudentAttendanceCardAnalytics {
+  border: 2px solid #efefef;
+  height: 33px !important;
+}
+
+.StudentAttendanceCardBtnAverage {
+  color: #4885ed;
+}
+
+.StudentAttendanceCardBtnAverageRed {
+  color: #db3236;
+}
+.StudentAttendanceCardBtnAverageGreen {
+  color: green;
+}
+
+.StudentAttendanceCardBtnAverageClassesHide {
+  display: none;
+}
+.StudentAttendanceCardBtnAveragePercentage {
+  display: block;
+  margin-right: 15px;
+}
+
+.StudentAttendanceCardBtnAverageClasses {
+  display: block;
+  margin-right: 15px;
+}
+.StudentAttendanceCardBtnAveragePercentageHide {
+  display: none;
+}
+
+/*CSS of records to make it responsive*/
+.MainRecordsSectionDesktop {
+  overflow: hidden;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: #fcfcfc;
+}
+
+.MainRecordsSectionDesktop::-webkit-scrollbar,
+.studentsAnalytics::-webkit-scrollbar {
+  display: none;
+}
+
+.recordsCardMainSection {
+  width: 100%;
+  height: 100%;
+  /* overflow-x: hidden !important; */
+  overflow-y: auto !important;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/*To hide the scrollbar - Second Technique Hahahahahahahaha*/
+
+.recordsCardMainSection::-webkit-scrollbar {
+  display: none;
+}
+
+.blur {
+  filter: blur(6px);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.NoRecords {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #999999;
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+}
+
+.recordsCardMain {
+  position: relative !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% - 24px);
+  height: auto;
+  margin-top: 12px;
+  border-radius: 3px;
+  background-color: #ffffff;
+  box-shadow: 0 0px 3px #dddddd;
+}
+.recordsCardMain:first-child {
+  margin-top: 62px;
+}
+
+.recordsCardMain:last-child {
+  margin-bottom: 30px;
+}
+
+.recordsCardMainExtraLastMargin:last-child {
+  margin-bottom: 110px !important;
+}
+
+.RecordsListMainSection {
+  opacity: 1;
+  z-index: 1000 !important;
+  height: 100vh;
+  overflow-y: scroll !important;
+  margin: 0px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+}
+
+.RecordsListCardsHeader {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  margin: 10px 0 15px 0;
+}
+
+.recordsCardMainInfoDiv {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.recordsCardMainInfoSubParagraph,
+.recordsCardMainInfoDeptParagraph,
+.recordsCardMainInfoSDShiftParagraph,
+.recordsCardMainInfoFacName {
+  margin: 0;
+  padding: 0;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.recordsCardMainInfoSubParagraph {
+  margin: 14px auto 9px auto !important;
+  width: 78%;
+}
+
+.recordsCardMainInfoDeptParagraph {
+  text-transform: capitalize;
+  width: 80%;
+  font-size: 15px;
+  margin: 0 auto !important;
+}
+
+.recordsCardMainInfoSDShiftParagraph {
+  font-size: 14px;
+  margin: 10px auto 16px auto !important;
+  width: 80%;
+}
+
+.recordsCardMainInfoFacName {
+  width: 80%;
+  font-size: 15px;
+  margin: 12px auto 16px auto !important;
+}
+
+/*To hide the scrollbar - Second Technique Hahahahahahahaha*/
+.RecordsListCardsMain {
+  background-color: #fff;
+  width: 90%;
+  max-height: 300px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  border: 2px solid #eceaea;
+}
+.RecordsListCardsMain::-webkit-scrollbar {
+  display: none;
+}
+
+.RecordsListCard {
+  width: 100%;
+  height: 34px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #dddddd;
+  transition: all 100ms ease-in-out;
+}
+
+.RecordsListCard:hover {
+  background-color: #eceaea;
+  transition: all 250ms ease-in-out;
+}
+.RecordsListCard:last-child {
+  border-bottom: none;
+}
+
+.RecordsListCardDate {
+  cursor: default;
+  display: flex;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.RecordsListDownloadBtn {
+  width: 40px;
+  color: #8d8d8d;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  cursor: default !important;
+}
+
+.RecordsListMainSectionCloseBtn {
+  margin-top: 15px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: default !important;
+}
+
+@media screen and (max-height: 450px) {
+  .analyticsBtnContainer {
+    position: unset;
+    top: unset;
+    left: unset;
+    transform: unset;
+  }
+
+  .overallAnalyticsBtn {
+    margin-top: 80px !important;
+  }
+  .studentsAnalyticsBtn {
+    margin-bottom: 30px !important;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .MainRecordsSectionDesktop {
+    overflow: hidden;
+    box-shadow: 0px 0px 8px #eeeeee;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 90vh;
+    width: 380px;
+  }
+
+  .RecordsListMainSection {
+    height: 90vh;
+  }
+
+  .analyticsBtn {
+    height: 90vh;
+  }
+}

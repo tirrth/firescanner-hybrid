@@ -1,0 +1,126 @@
+.addStudentsMain {
+  opacity: 1;
+  z-index: 100000000 !important;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.editStudentsSubjectName {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 15px;
+}
+
+.addStudents {
+  background-color: #fff;
+  width: 90%;
+  max-height: 300px;
+  border-radius: 10px;
+  overflow-y: scroll;
+  border: 2px solid #eceaea;
+  margin-top: 0;
+}
+
+.addStudents::-webkit-scrollbar {
+  display: none;
+}
+
+.addStudentsBtn {
+  width: 90%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 15px;
+  margin-bottom: 24px;
+}
+
+.addStudentsCloseBtn,
+.addStudentsNextBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 34px;
+  width: 34px;
+  border-radius: 50%;
+  color: #ffffff;
+}
+
+.addAllStudentsBtn,
+.removeAllStudentsBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 100px;
+  border-radius: 6px;
+  color: #5084e8;
+  background-color: #f1f3f4;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.addStudentsCloseBtn {
+  background-color: #db3236;
+}
+.addStudentsNextBtn {
+  background-color: #3cba54;
+}
+
+.addStudentsCard {
+  width: 100%;
+  height: 34px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #dddddd;
+  transition: all 100ms ease-in-out;
+}
+
+.addStudentsCard:last-child {
+  border-bottom: none;
+}
+
+.addStudentsCardStudentInfo {
+  width: 80%;
+  margin-left: 22px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.addStudentsCardStudentInfoEnNo {
+  display: block;
+}
+
+.addStudentsCardStudentInfoNameHide {
+  display: none;
+}
+
+.addStudentsCardStudentInfoEnNoHide {
+  display: none;
+}
+
+.addStudentsCardStudentInfoName {
+  display: block;
+}
+
+.addStudentsCardStudentAddBtn {
+  display: block;
+}
+.addStudentsCardStudentRemoveBtnHide {
+  display: none;
+}
+.addStudentsCardStudentAddBtnHide {
+  display: none;
+}
+.addStudentsCardStudentRemoveBtn {
+  display: block;
+}

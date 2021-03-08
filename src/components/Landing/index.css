@@ -1,0 +1,31 @@
+.Choice {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+}
+
+.ChoiceCards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: default !important;
+}
+.ChoiceCardOneDiv {
+  margin-right: 10px;
+}
+.ChoiceCardSecondDiv {
+  margin-left: 10px;
+}
+
+@media screen and (max-width: 450px) {
+  .ChoiceCards {
+    flex-direction: column;
+  }
+  .ChoiceCardOneDiv {
+    margin-right: 0;
+  }
+  .ChoiceCardSecondDiv {
+    margin-top: 20px;
+    margin-left: 0;
+  }
+}

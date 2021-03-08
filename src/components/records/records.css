@@ -1,0 +1,186 @@
+.MainRecordsSectionDesktop {
+  height: auto;
+}
+
+.MainRecordsSectionDesktopOverflowHide {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.MainRecordsSectionDesktop::-webkit-scrollbar {
+  display: none;
+}
+
+.classListNavBar {
+  position: fixed;
+}
+
+.recordsCardMainSection {
+  width: 100%;
+  margin-top: 52px;
+  padding-top: 4px;
+  padding-bottom: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 150ms ease-in-out;
+}
+
+/*To hide the scrollbar - Second Technique Hahahahahahahaha*/
+.recordsCardMainSection::-webkit-scrollbar {
+  display: none;
+}
+
+.recordsCardMainSectionOverflowHide {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+}
+
+.recordsCardMainFacSection {
+  transition: all 150ms ease-in-out;
+}
+
+.blur {
+  filter: blur(6px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.recordsCardMain {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88vw;
+  height: 110px;
+  margin-top: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0px 6px #eceaea;
+  text-align: center;
+}
+
+.RecordsListMainSection {
+  opacity: 1;
+  z-index: 1000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  transition: all 350ms ease-in-out;
+}
+
+.RecordsListCardsHeader {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0;
+  padding: 0;
+  margin: 10px 0 15px 0;
+}
+.RecordsListCardsMain {
+  background-color: #fff;
+  width: 90%;
+  max-height: 300px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  border: 2px solid #eceaea;
+}
+
+/*To hide the scrollbar - Second Technique Hahahahahahahaha*/
+.RecordsListCardsMain::-webkit-scrollbar {
+  display: none;
+}
+
+.RecordsListCard {
+  width: 100%;
+  height: 34px;
+  background-color: #fff;
+  display: flex;
+  justify-content: space-around;
+  border-bottom: 1px solid #dddddd;
+  transition: all 100ms ease-in-out;
+}
+
+.RecordsListCard:hover {
+  background-color: #eceaea;
+  transition: all 250ms ease-in-out;
+}
+.RecordsListCard:last-child {
+  border-bottom: none;
+}
+
+.RecordsListCardDR {
+  cursor: default;
+  display: flex;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+}
+
+.RecordsListDownloadBtn {
+  width: 40px;
+  cursor: pointer;
+  color: #8d8d8d;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.RecordsListMainSectionCloseBtn {
+  cursor: pointer;
+  margin-top: 15px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.recordsCardMainInfoDeptParagraph {
+  text-transform: lowercase;
+}
+
+.recordsCardMainInfoDeptParagraph::first-letter {
+  text-transform: uppercase;
+}
+
+@media screen and (min-width: 550px) {
+  .MainRecordsSectionDesktop {
+    overflow: scroll;
+    box-shadow: 0px 0px 8px #eeeeee;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 90vh;
+    width: 380px;
+  }
+
+  .recordsCardMainSection {
+    height: auto;
+    padding-top: 0px;
+  }
+
+  .recordsCardMain {
+    width: 88%;
+    height: 110px;
+  }
+}

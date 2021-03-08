@@ -1,0 +1,44 @@
+.ChoiceCard {
+  border: 2px solid #f0f0f0;
+  padding: 22px;
+  padding-bottom: 0px;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 250ms linear;
+  cursor: default !important;
+}
+
+.ChoiceCard:hover {
+  border-color: transparent;
+  box-shadow: 0px 0px 7px #b5b5be;
+}
+
+.ChoiceCard img {
+  width: 90%;
+  height: 90%;
+  transition: all 250ms linear;
+  transform-origin: top right left bottom;
+}
+
+.ChoiceCard:hover img {
+  transform: scale(1.01);
+}
+
+.ChoiceCard p {
+  font-size: 22px;
+  font-weight: 500;
+  color: #8d8d8d;
+  margin-top: 16px;
+  transition: all 250ms linear;
+  transform-origin: top right left bottom;
+}
+.ChoiceCard:hover p {
+  font-size: 22px;
+  color: #4d4d4d;
+}
+
+@media screen and (max-width: 450px) {
+  .Choice {
+    margin-top: 0;
+  }
+}

@@ -1,0 +1,240 @@
+.IdCardMain {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.idCardHamburger {
+  width: 66px;
+  height: 62px;
+  background-color: #ffffff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #f0f0f0;
+  border-left: none;
+  border-top: none;
+  border-bottom-right-radius: 100%;
+  z-index: 10000;
+  box-shadow: 0px 0px 10px #f0f0f0;
+}
+
+.IdCardContainer {
+  font-family: "verdana";
+  justify-self: start;
+}
+.id-card-holder {
+  width: 260px;
+  height: auto;
+  padding: 4px;
+  margin: 0 auto;
+  background-color: #1f1f1f;
+  border-radius: 5px;
+  position: relative;
+}
+.id-card-holder:after {
+  content: "";
+  width: 8px;
+  display: block;
+  z-index: 100;
+  background-color: #1f1f1f;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  border-radius: 0 5px 5px 0;
+}
+.id-card-holder:before {
+  content: "";
+  width: 8px;
+  display: block;
+  z-index: 100;
+  background-color: #1f1f1f;
+  height: 100px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+  border-radius: 5px 0 0 5px;
+}
+.id-card {
+  height: auto;
+  width: 100%;
+  overflow: hidden;
+  background-color: #fff;
+  padding: 0px;
+  border-radius: 10px;
+  text-align: center;
+  padding-bottom: 22px;
+}
+
+.header {
+  height: 140px;
+  background-image: url("../../images/zigzag.png");
+  background-attachment: fixed;
+  background-origin: border-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-bottom-left-radius: 50%;
+  border-bottom-right-radius: 50%;
+  width: 130%;
+  margin-left: -15%;
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.profile-info {
+  margin-top: 0%;
+  z-index: 1;
+}
+
+.profile-picture {
+  height: 66px;
+  width: 66px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.profile-picture img {
+  width: 100%;
+  height: 100%;
+}
+.profile-header h4 {
+  padding: 0;
+  margin: 0;
+  margin-top: 10px;
+}
+
+.student-card {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  margin-top: 6px;
+}
+
+.student-info {
+  padding: 14px;
+}
+
+.student-info-p {
+  display: flex;
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 6px;
+}
+.student-info-p:first-child {
+  margin: 0;
+  padding: 0;
+  margin-top: 0;
+}
+.student-info-p p {
+  margin: 0;
+  padding: 0;
+}
+
+.student-info-p p:nth-child(2) {
+  /* background-color: red; */
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+}
+
+.student-info-header {
+  width: 50px;
+  /* background-color: red; */
+  text-align: left;
+  font-weight: 800;
+}
+
+.id-card-hook {
+  background-color: #000;
+  width: 70px;
+  margin: 0 auto;
+  height: 15px;
+  border-radius: 5px 5px 0 0;
+}
+.id-card-hook:after {
+  content: "";
+  background-color: #fff;
+  width: 47px;
+  height: 6px;
+  display: block;
+  margin: 0px auto;
+  position: relative;
+  top: 6px;
+  border-radius: 4px;
+}
+.id-card-tag-strip {
+  width: 45px;
+  height: 40px;
+  background-color: #0950ef;
+  margin: 0 auto;
+  border-radius: 5px;
+  position: relative;
+  top: 9px;
+  z-index: 1;
+  border: 1px solid #0041ad;
+}
+.id-card-tag-strip:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  background-color: #c1c1c1;
+  position: relative;
+  top: 10px;
+}
+.id-card-tag {
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-top: 100px solid #0958db;
+  margin: -10px auto -30px auto;
+}
+.id-card-tag:after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-top: 100px solid #fff;
+  margin: -10px auto -30px auto;
+  position: relative;
+  top: -130px;
+  left: -50px;
+}
+
+/*ID Card Buttons*/
+.id-card-download {
+  height: 32px;
+  width: 120px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-top: 30px;
+  color: #5084e8;
+  background-color: #f1f3f4;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* @media screen and (min-width: 550px) {
+  .IdCardMain {
+    overflow-y: hidden;
+    box-shadow: 0px 0px 8px #eeeeee;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 90vh;
+    width: 380px;
+  }
+} */

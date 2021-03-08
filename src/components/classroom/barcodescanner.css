@@ -1,0 +1,260 @@
+.attendeesListNavBar {
+  filter: blur(0px);
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  box-shadow: 0 0px 10px #eeeeee;
+  height: 50px;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 150ms ease-in-out;
+}
+.attendeesListNavHeader {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 0;
+  margin: 0;
+}
+
+.barCodeScannerMain {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  overflow: scroll;
+}
+.barCodeScanner {
+  z-index: 100;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.afterResultDetectedDiv {
+  height: 200px;
+  width: 300px;
+  background-color: #0078ff;
+  border-radius: 8px;
+}
+
+.barcodeFail {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.barcodeFailGIF {
+  pointer-events: none;
+  height: 200px;
+  width: 300px;
+  background-color: transparent;
+  border-radius: 8px;
+}
+
+.barcodeFailNextBtn {
+  width: 40px;
+  height: 40px;
+  background-color: #db3236;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50px;
+  color: #fff;
+  margin-top: 15px;
+}
+.cardScanningHamburgerClose {
+  position: absolute;
+  top: 2%;
+  right: 4%;
+  padding: 15px 8px;
+}
+
+.viewport {
+  position: relative;
+  height: 200px;
+  width: 300px;
+}
+
+video {
+  object-fit: cover;
+  border-radius: 8px;
+}
+.viewport video {
+  width: 100%;
+  height: 100%;
+}
+
+.viewport canvas {
+  display: none;
+}
+
+.viewport br {
+  display: none;
+}
+.barcodeHorizontalBar {
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  height: 1.5px;
+  background-color: red;
+  left: 0;
+  animation: scroll_search 1s infinite;
+  animation-direction: alternate;
+}
+@keyframes scroll_search {
+  from {
+    top: 4%;
+  }
+  to {
+    top: 96%;
+  }
+}
+
+.barcodeResult {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.barcodeResultNumber {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  width: 250px;
+  height: 34px;
+  border-radius: 6px;
+  background-color: #ffff;
+}
+
+.barcodeResultNumber p {
+  font-size: 18px;
+  color: #454545;
+  font-weight: 600;
+}
+
+.barcodeResultOptions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.barcodeResultOptionsReScan,
+.barcodeResultOptionsConfirm {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  margin-left: 10px;
+  margin-right: 10px;
+  transition: all 250ms ease-in-out;
+}
+
+.barcodeResultOptionsReScan {
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+.barcodeResultOptionsReScan:hover {
+  background-color: #fff;
+  color: #454545;
+}
+.barcodeResultOptionsConfirm {
+  background-color: #fff;
+  border: 2px solid #fff;
+  color: #454545;
+}
+
+.barcodeResultOptionsConfirm:hover {
+  background-color: transparent;
+  color: #fff;
+}
+
+/*Barcode Scanner Alternative*/
+.barCodeScannerAlternative {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  margin-top: 20px;
+  border-radius: 8px;
+  width: 100%;
+  height: 40px;
+  background-color: #0078ff;
+  color: #fff;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.onScanAlternativeInput {
+  border: none;
+  width: 250px;
+  height: 34px;
+  border-radius: 6px;
+  background-color: #ffff;
+  margin-bottom: 20px;
+}
+
+@media screen and (max-width: 550px) {
+  .viewport {
+    height: 200px;
+    width: 300px;
+  }
+
+  .barcodeResultNumber {
+    margin-top: 20px;
+    width: 250px;
+    height: 32px;
+    border-radius: 6px;
+    background-color: #ffffff;
+  }
+  .barcodeResultNumber p {
+    font-size: 16px;
+  }
+
+  .afterResultDetectedDiv {
+    height: 200px;
+    width: 300px;
+    background-color: #0078ff;
+    border-radius: 8px;
+  }
+
+  .barcodeFailGIF {
+    pointer-events: none;
+    height: 168px;
+    width: 290px;
+    background-color: transparent;
+    border-radius: 8px;
+  }
+
+  .onScanAlternativeInput {
+    width: 250px;
+    height: 32px;
+    margin-bottom: 20px;
+  }
+}
