@@ -9,12 +9,13 @@ import { compose } from "recompose";
 
 import FacultyImg from "../../images/student.png";
 
-import HomeIcon from "react-ionicons/lib/MdCode";
-import ProfileIcon from "react-ionicons/lib/MdHappy";
-import AnalyticsIcon from "react-ionicons/lib/MdInfinite";
-import IdCardIcon from "react-ionicons/lib/MdCard";
-import FeedbackIcon from "react-ionicons/lib/MdGitCommit";
-import LogOutIcon from "react-ionicons/lib/MdLogOut";
+import Ionicon from "react-ionicons";
+// import HomeIcon from "react-ionicons/lib/MdCode";
+// import ProfileIcon from "react-ionicons/lib/MdHappy";
+// import AnalyticsIcon from "react-ionicons/lib/MdInfinite";
+// import IdCardIcon from "react-ionicons/lib/MdCard";
+// import FeedbackIcon from "react-ionicons/lib/MdGitCommit";
+// import LogOutIcon from "react-ionicons/lib/MdLogOut";
 
 import { withFirebase } from "../Configuration";
 import "./menu.css";
@@ -141,7 +142,8 @@ export class Menu extends Component {
                       : null
                   }
                 >
-                  <HomeIcon
+                  <Ionicon
+                    icon="ion-code"
                     color={
                       this.props.name === "Classroom" ? `#4285f4` : `#454545`
                     }
@@ -156,7 +158,8 @@ export class Menu extends Component {
                     this.props.name === "Profile" ? "NavBarNavListStyle" : null
                   }
                 >
-                  <ProfileIcon
+                  <Ionicon
+                    icon="ion-android-happy"
                     color={
                       this.props.name === "Profile" ? `#4285f4` : `#454545`
                     }
@@ -172,7 +175,8 @@ export class Menu extends Component {
                       : null
                   }
                 >
-                  <AnalyticsIcon
+                  <Ionicon
+                    icon="ion-ios-infinite"
                     color={
                       this.props.name === "Analytics" ? `#4285f4` : `#454545`
                     }
@@ -190,7 +194,8 @@ export class Menu extends Component {
                         : null
                     }
                   >
-                    <IdCardIcon
+                    <Ionicon
+                      icon="ion-card"
                       color={
                         this.props.name === "ID Card" ? `#4285f4` : `#454545`
                       }
@@ -206,7 +211,8 @@ export class Menu extends Component {
                     cursor: `default`,
                   }}
                 >
-                  <FeedbackIcon
+                  <Ionicon
+                    icon="ion-android-bulb"
                     color={`#454545`}
                     style={{ marginLeft: `12px` }}
                   />
@@ -216,7 +222,8 @@ export class Menu extends Component {
                   onClick={this.onSignOutClick}
                   style={{ pointerEvents: `visible` }}
                 >
-                  <LogOutIcon
+                  <Ionicon
+                    icon="ion-log-out"
                     color={`#454545`}
                     style={{ marginLeft: `12px` }}
                   />

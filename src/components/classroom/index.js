@@ -148,12 +148,6 @@ class ClassroomSection extends Component {
     this.addStudentsCardStudentInfoName = [];
 
     var today = new Date();
-    var dateFirebase =
-      (today.getDate() < 10 ? "0" + today.getDate() : today.getDate()) +
-      (today.getMonth() + 1 < 10
-        ? "0" + (today.getMonth() + 1)
-        : today.getMonth() + 1) +
-      today.getFullYear();
 
     var dateStyle =
       today.getDate() +
@@ -174,7 +168,6 @@ class ClassroomSection extends Component {
       ...INITIAL_STATE_ADD_CLASS_INPUTS,
       ...INITIAL_STATE_CLASSROOM_SECTION,
 
-      dateFirebase: dateFirebase,
       dateStyle: dateStyle,
       time: "",
       weekdayName: weekday[today.getDay()],
@@ -1447,6 +1440,7 @@ class ClassroomSection extends Component {
                       var stuAttendance = snapshot.val().attendance;
                       var stuEnNo = snapshot.val().stu_enrolno;
                       var stuName = snapshot.val().stu_name;
+                      const timestamp = new Date().toISOString().split(".")[0];
 
                       this.props.firebase
                         .facultySubjects(
@@ -1454,7 +1448,7 @@ class ClassroomSection extends Component {
                           this.state.fac_college_name
                         )
                         .child(
-                          `${facCardInfoObj.current_facultySub_key}/attendees/${this.state.dateFirebase}/${this.state.randomNumber}/${subStuKey}`
+                          `${facCardInfoObj.current_facultySub_key}/attendees/${timestamp}/${this.state.randomNumber}/${subStuKey}`
                         )
                         .set({
                           stuAttendance,

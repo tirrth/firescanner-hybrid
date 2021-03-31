@@ -213,6 +213,7 @@ class recordList extends Component {
   }
 
   render() {
+    const timestamp_utc = new Date(`${this.props.facdate}.000Z`).toUTCString();
     return (
       <div className="recordListSectionMain">
         <IonAlert
@@ -407,35 +408,40 @@ class recordList extends Component {
           paperSize="auto"
           margin={40}
           fileName={`Attendance Report of ${this.state.facSub} (${
-            this.props.facdate.toString().slice(0, 2) +
-            "_" +
-            this.props.facdate.toString().slice(2, 4) +
-            "_" +
-            this.props.facdate.toString().slice(4)
+            this.props.facdate.toString().split("T")[0]
           })`}
         >
           <div className="recordListPDFInfoMain" id="divToPrint">
             <div className="recordListPDFInfo">
               <div className="recordListSectionMainInfo">
                 <div className="recordListSectionMainInfoDR">
-                  <div className="recordListSectionMainInfoDate">
+                  {/* <div className="recordListSectionMainInfoDate">
                     <p>Date: </p>
                     <p style={{ marginLeft: `6px` }}>
-                      {this.props.facdate.toString().slice(0, 2) +
+                      {timestamp_utc.split(" ")[0]}
+                    </p>
+                  </div> */}
+                  {this.props.facdate.toString().split("T").length && (
+                    <div className="recordListSectionMainInfoDate">
+                      <p></p>
+                      <p style={{ marginLeft: `6px` }}>
+                        {/* {this.props.facdate.toString().slice(0, 2) +
                         "/" +
                         this.props.facdate.toString().slice(2, 4) +
                         "/" +
-                        this.props.facdate.toString().slice(4)}
-                    </p>
-                  </div>
-                  <div className="recordListSectionMainInfoRandom">
+                        this.props.facdate.toString().slice(4)} */}
+                        {timestamp_utc.replace("GMT", "")}
+                      </p>
+                    </div>
+                  )}
+                  {/* <div className="recordListSectionMainInfoRandom">
                     <p>Random No.: </p>
                     <p style={{ marginLeft: `6px` }}>{this.props.facrandom}</p>
-                  </div>
-                  <div className="recordListSectionMainInfoRoom">
+                  </div> */}
+                  {/* <div className="recordListSectionMainInfoRoom">
                     <p>Room: </p>
                     <p style={{ marginLeft: `6px` }}>{this.state.facRoom}</p>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="recordListSectionMainInfoClg">
                   {this.state.fac_college_name}
@@ -459,7 +465,9 @@ class recordList extends Component {
                     </div>
                     <div className="recordListSectionMainInfoSub">
                       <p>Subject: </p>
-                      <p style={{ marginLeft: `6px` }}>{this.state.facSub}</p>
+                      <p style={{ marginLeft: `6px` }}>
+                        {this.state.facSub} - {this.state.facRoom}
+                      </p>
                     </div>
                     <div className="recordListSectionMainInfoSemDivShift">
                       <p>Semester/Division/Shift: </p>

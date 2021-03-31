@@ -266,7 +266,7 @@ class AnalyticsBaseMain extends Component {
 
                     recordInfoList.push({
                       attendanceRecordDate: attendanceRecordDate,
-                      attendanceRecordAvaerage: averagePercentage,
+                      attendanceRecordAverage: averagePercentage,
                       attendanceRecordRandomNo: attendanceRecordRandomNo,
                     });
 
@@ -455,6 +455,12 @@ class AnalyticsBaseMain extends Component {
 
               {this.state.isSpinnerHide && this.state.recordInfoList
                 ? this.state.recordInfoList.reverse().map((header) => {
+                    const splitted_timestamp = header.attendanceRecordDate
+                      ?.toString()
+                      ?.split("T");
+                    const date = splitted_timestamp[0].split("-")[2] || "00";
+                    const month = splitted_timestamp[0].split("-")[1] || "00";
+                    const year = splitted_timestamp[0].split("-")[0] || "00";
                     return (
                       <div
                         key={header.attendanceRecordRandomNo}
@@ -474,22 +480,18 @@ class AnalyticsBaseMain extends Component {
                         }
                       >
                         <div className="RecordsListCardDate">
-                          {header.attendanceRecordDate.toString().slice(0, 2) +
-                            "-" +
-                            header.attendanceRecordDate.toString().slice(2, 4) +
-                            "-" +
-                            header.attendanceRecordDate.toString().slice(4)}
+                          {`${date}-${month}-${year}`}
                         </div>
                         <div
                           className={
-                            header.attendanceRecordAvaerage >= 85
+                            header.attendanceRecordAverage >= 85
                               ? "AnalyticsRecordListCardAverageGreen"
-                              : header.attendanceRecordAvaerage <= 50
+                              : header.attendanceRecordAverage <= 50
                               ? "AnalyticsRecordListCardAverageRed"
                               : "AnalyticsRecordListCardAverage"
                           }
                         >
-                          {header.attendanceRecordAvaerage}%
+                          {header.attendanceRecordAverage}%
                         </div>
                       </div>
                     );

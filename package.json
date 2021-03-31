@@ -19,10 +19,10 @@
     "react": "^16.13.1",
     "react-barcode": "^1.4.0",
     "react-dom": "^16.13.1",
-    "react-ionicons": "^3.1.4",
+    "react-ionicons": "^1.4.6",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.3",
-    "recompose": "^0.30.0"
+    "react-scripts": "^4.0.3",
+    "recompose": "^0.17.0"
   },
   "scripts": {
     "start": "react-scripts start",
