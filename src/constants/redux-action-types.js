@@ -1,0 +1,1 @@
+export const ADD_COLLEGE_LIST = "ADD_COLLEGE_LIST";

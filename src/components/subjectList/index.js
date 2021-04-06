@@ -298,7 +298,8 @@ class index extends Component {
             <img
               src={ContentNotFound}
               alt={"ContentNotFound"}
-              style={{ width: `100vw` }}
+              // style={{ width: `100%` }}
+              style={{ width: "380px" }}
             />
           </div>
         ) : null}

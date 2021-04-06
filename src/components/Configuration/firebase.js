@@ -47,9 +47,7 @@ class Firebase {
 
   doSendEmailVerification = () =>
     this.auth.currentUser.sendEmailVerification({
-      // url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
-      url:
-        "https://firescan-16f8e.firebaseapp.com/__/auth/action?mode=<action>&oobCode=<code>",
+      url: process.env.REACT_APP_CONFIRMATION_EMAIL_REDIRECT,
     });
 
   doPasswordUpdate = (password) =>
@@ -68,11 +66,11 @@ class Firebase {
             const dbUserAuthorization = snapshot.val();
 
             // default empty role
-            if (!dbUserAuthorization.role) {
+            if (dbUserAuthorization && !dbUserAuthorization.role) {
               dbUserAuthorization.role = "";
             }
 
-            if (dbUserAuthorization.role === "Faculty") {
+            if (dbUserAuthorization?.role === "Faculty") {
               this.faculty(dbUserAuthorization.college, authUser.uid).once(
                 "value",
                 (snapshot) => {
@@ -82,7 +80,7 @@ class Firebase {
                   authUser = {
                     access_code: dbUser.access_code,
                     name: dbUser.name,
-                    role: dbUserAuthorization.role,
+                    role: dbUserAuthorization?.role,
                     college: dbUserAuthorization.college,
                     uid: authUser.uid,
                     email: authUser.email,
@@ -92,7 +90,7 @@ class Firebase {
                   next(authUser);
                 }
               );
-            } else if (dbUserAuthorization.role === "Student") {
+            } else if (dbUserAuthorization?.role === "Student") {
               this.student(dbUserAuthorization.college, authUser.uid).once(
                 "value",
                 (snapshot) => {
@@ -101,7 +99,7 @@ class Firebase {
                   // merge auth and db user
                   authUser = {
                     ...dbUser,
-                    role: dbUserAuthorization.role,
+                    role: dbUserAuthorization?.role,
                     college: dbUserAuthorization.college,
                     uid: authUser.uid,
                     email: authUser.email,

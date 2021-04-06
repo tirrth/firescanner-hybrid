@@ -11,5 +11,6 @@ export const CLASSROOM = "/classroom";
 export const ANALYTICS = "/analytics";
 export const IDCARD = "/idcard";
 export const SPINNER = "/spinner";
-
+export const DOWNLOAD_ANALYTICS = "/download/analytics";
+export const DOWNLOAD_ANALYTICS_API = "/api/download/analytics/:encoded_data";
 export const SUBLIST = "/sublist";

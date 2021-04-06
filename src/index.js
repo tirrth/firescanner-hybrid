@@ -9,6 +9,14 @@ import Firebase, { FirebaseContext } from "./components/Configuration";
 
 import { Plugins } from "@capacitor/core";
 
+// ---------------------------- Redux Setup ---------------------------- //
+import store from "./components/redux/store";
+import { addCollegeList } from "./components/redux/actions";
+
+window.store = store;
+window.addCollegeList = addCollegeList;
+// ---------------------------- (EXIT) Redux Setup ---------------------------- //
+
 const { SplashScreen } = Plugins;
 SplashScreen.hide();
 

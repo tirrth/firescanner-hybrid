@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { PDFExport } from "@progress/kendo-react-pdf";
 
 import * as ROUTES from "../../constants/routes";
+import { cipher } from "../../encryption/cipher-encrypt";
 
 class recordList extends Component {
   constructor(props) {
@@ -43,12 +44,27 @@ class recordList extends Component {
       presentStudentsConfirmation: false,
       absentStudentsConfirmation: false,
       allStudentsConfirmation: true,
+
+      cipher_info: {},
     };
 
     this.recordListSectionMainTableRow = React.createRef();
   }
+
   componentDidMount() {
     this._isMounted = true;
+
+    // ------------------------ Encrypting necessary data to download PDF ------------------------ //
+    const cipher_salt = `${Math.random()}`;
+    const encoded_cipher = cipher(cipher_salt)(
+      JSON.stringify({
+        subject_key: this.props.subkey,
+        attendance_date: this.props.facdate,
+        random_no: this.props.facrandom,
+      })
+    );
+    this.setState({ cipher_info: { encoded_cipher, cipher_salt } });
+    // ------------------------ (EXIT) Encrypting necessary data to download PDF ------------------------ //
 
     if (this._isMounted) {
       var presentStu = 0;
@@ -242,156 +258,50 @@ class recordList extends Component {
               text: "Yes",
               handler: () => {
                 if (this.state.showAlertConfirmationPDF) {
-                  var srno = 0;
-
                   if (this.state.presentStudentsConfirmation) {
-                    this.setState({ allStudentsConfirmation: false });
-
-                    this.props.firebase
-                      .facultySubjects(
-                        this.state.facAuthID,
-                        this.state.fac_college_name
-                      )
-                      .child(
-                        `${this.props.subkey}/attendees/${this.props.facdate}/${this.props.facrandom}`
-                      )
-                      .orderByChild("stuEnNo")
-                      .on("child_added", (snapshot) => {
-                        if (this._isMounted) {
-                          var stuAttendance = snapshot.val().stuAttendance;
-                          if (
-                            this.state.presentStudentsConfirmation &&
-                            stuAttendance === "present"
-                          ) {
-                            var stuEnNo = snapshot.val().stuEnNo;
-                            var stuName = snapshot.val().stuName;
-
-                            var recordListSectionMainTableRow = document.createElement(
-                              "tr"
-                            );
-                            var recordListSectionMainTableRowSr = document.createElement(
-                              "td"
-                            );
-                            var recordListSectionMainTableRowName = document.createElement(
-                              "td"
-                            );
-                            var recordListSectionMainTableRowEn = document.createElement(
-                              "td"
-                            );
-
-                            if (stuAttendance === "absent") {
-                              recordListSectionMainTableRow.className =
-                                "redColorAbsentIndicatorTr";
-                              recordListSectionMainTableRowSr.className =
-                                "redColorAbsentIndicatorTd";
-                              recordListSectionMainTableRowName.className =
-                                "redColorAbsentIndicatorTd";
-                              recordListSectionMainTableRowEn.className =
-                                "redColorAbsentIndicatorTd";
-                            }
-
-                            recordListSectionMainTableRow.appendChild(
-                              recordListSectionMainTableRowSr
-                            );
-                            recordListSectionMainTableRow.appendChild(
-                              recordListSectionMainTableRowName
-                            );
-                            recordListSectionMainTableRow.appendChild(
-                              recordListSectionMainTableRowEn
-                            );
-
-                            recordListSectionMainTableRowSr.append(
-                              `${srno + 1}.`
-                            );
-                            srno = srno + 1;
-
-                            recordListSectionMainTableRowName.append(stuName);
-                            recordListSectionMainTableRowEn.append(stuEnNo);
-
-                            this.recordListSectionMainTableRowPresent.appendChild(
-                              recordListSectionMainTableRow
-                            );
-                          }
-                        }
-                      });
-                    this.pdfExportComponent.save();
-                    window.location.reload(false);
+                    // this.props.history.push({
+                    //   pathname: "/download/analytics",
+                    //   state: {
+                    //     ...this.state.cipher_info,
+                    //     export_present: true,
+                    //   },
+                    // });
+                    const encoded_base64 = window.btoa(
+                      JSON.stringify({
+                        ...this.state.cipher_info,
+                        export_present: true,
+                        export_absent: false,
+                      })
+                    );
+                    this.props.history.push({
+                      pathname: "/api/download/analytics/" + encoded_base64,
+                    });
                   } else if (this.state.absentStudentsConfirmation) {
-                    this.setState({ allStudentsConfirmation: false });
-
-                    this.props.firebase
-                      .facultySubjects(
-                        this.state.facAuthID,
-                        this.state.fac_college_name
-                      )
-                      .child(
-                        `${this.props.subkey}/attendees/${this.props.facdate}/${this.props.facrandom}`
-                      )
-                      .orderByChild("stuEnNo")
-                      .on("child_added", (snapshot) => {
-                        if (this._isMounted) {
-                          var stuAttendance = snapshot.val().stuAttendance;
-                          if (
-                            this.state.absentStudentsConfirmation &&
-                            stuAttendance === "absent"
-                          ) {
-                            var stuEnNo = snapshot.val().stuEnNo;
-                            var stuName = snapshot.val().stuName;
-
-                            var recordListSectionMainTableRow = document.createElement(
-                              "tr"
-                            );
-                            var recordListSectionMainTableRowSr = document.createElement(
-                              "td"
-                            );
-                            var recordListSectionMainTableRowName = document.createElement(
-                              "td"
-                            );
-                            var recordListSectionMainTableRowEn = document.createElement(
-                              "td"
-                            );
-
-                            if (stuAttendance === "absent") {
-                              recordListSectionMainTableRow.className =
-                                "redColorAbsentIndicatorTr";
-                              recordListSectionMainTableRowSr.className =
-                                "redColorAbsentIndicatorTd";
-                              recordListSectionMainTableRowName.className =
-                                "redColorAbsentIndicatorTd";
-                              recordListSectionMainTableRowEn.className =
-                                "redColorAbsentIndicatorTd";
-                            }
-
-                            recordListSectionMainTableRow.appendChild(
-                              recordListSectionMainTableRowSr
-                            );
-                            recordListSectionMainTableRow.appendChild(
-                              recordListSectionMainTableRowName
-                            );
-                            recordListSectionMainTableRow.appendChild(
-                              recordListSectionMainTableRowEn
-                            );
-
-                            recordListSectionMainTableRowSr.append(
-                              `${srno + 1}.`
-                            );
-                            srno = srno + 1;
-
-                            recordListSectionMainTableRowName.append(stuName);
-                            recordListSectionMainTableRowEn.append(stuEnNo);
-
-                            this.recordListSectionMainTableRowAbsent.appendChild(
-                              recordListSectionMainTableRow
-                            );
-                          }
-                        }
-                      });
-
-                    this.pdfExportComponent.save();
-                    window.location.reload(false);
+                    // this.props.history.push({
+                    //   pathname: "/download/analytics",
+                    //   state: { ...this.state.cipher_info, export_absent: true },
+                    // });
+                    const encoded_base64 = window.btoa(
+                      JSON.stringify({
+                        ...this.state.cipher_info,
+                        export_present: false,
+                        export_absent: true,
+                      })
+                    );
+                    this.props.history.push({
+                      pathname: "/api/download/analytics/" + encoded_base64,
+                    });
                   } else if (this.state.allStudentsConfirmation) {
-                    this.pdfExportComponent.save();
-                    window.location.reload(false);
+                    // this.props.history.push({
+                    //   pathname: "/download/analytics",
+                    //   state: this.state.cipher_info,
+                    // });
+                    const encoded_base64 = window.btoa(
+                      JSON.stringify(this.state.cipher_info)
+                    );
+                    this.props.history.push({
+                      pathname: "/api/download/analytics/" + encoded_base64,
+                    });
                   }
                 } else if (this.state.showAlertExitDoc) {
                   this.props.history.push(ROUTES.ANALYTICS);
@@ -531,7 +441,6 @@ class recordList extends Component {
         </PDFExport>
         <div className="recordListSectionMainEPBtn">
           <div
-            // ref={this.StudentAttendanceCardPresentList}
             onClick={this.PDFExportPresent}
             className="recordListSectionMainPresentBtn"
             style={{ fontWeight: `800` }}
@@ -539,7 +448,6 @@ class recordList extends Component {
             P
           </div>
           <div
-            // ref={this.StudentAttendanceCardAbsentList}
             onClick={this.PDFExportAbsent}
             className="recordListSectionMainAbsentBtn"
             style={{ fontWeight: `800` }}

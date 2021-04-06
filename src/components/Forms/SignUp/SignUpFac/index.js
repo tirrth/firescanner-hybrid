@@ -7,7 +7,7 @@ import Classroom from "../../../classroom";
 import TermsCheckbox from "../TermsCheckbox";
 
 import { withFirebase } from "../../../Configuration";
-import CollegeJSON from "../../../../CollegeList.json";
+// import CollegeJSON from "../../../../CollegeList.json";
 
 import * as ROUTES from "../../../../constants/routes";
 import * as ROLE from "../../../../constants/role";
@@ -54,7 +54,7 @@ const INITIAL_STATE = {
   passwordTwo: "",
   error: null,
   role: ROLE.FACULTY,
-  college_list: CollegeJSON,
+  college_list: [],
 
   termCheckboxToggle: false,
 
@@ -71,10 +71,32 @@ const ERROR_MSG_ACCOUNT_EXISTS =
 const ERROR_MSG_INVALID_EMAIL = "Invalid Email ID";
 
 class SignUpFormBase extends Component {
+  unsubscribeToReduxStore = () => null;
   constructor(props) {
     super(props);
 
     this.state = { ...INITIAL_STATE };
+  }
+
+  _setCollegeListState = () => {
+    const { college_list } = window.store?.getState();
+    college_list &&
+      Array.isArray(college_list) &&
+      college_list.length &&
+      this.setState({ college_list });
+  };
+
+  componentDidMount() {
+    this._setCollegeListState();
+    this.unsubscribeToReduxStore = window.store?.subscribe(() => {
+      this._setCollegeListState();
+    });
+
+    this.setState({ showAlert: true });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribeToReduxStore();
   }
 
   onChange = (event) => {
@@ -178,10 +200,6 @@ class SignUpFormBase extends Component {
   termCheckboxToggleInfo = () => {
     this.setState({ termCheckboxToggle: !this.state.termCheckboxToggle });
   };
-
-  componentDidMount() {
-    this.setState({ showAlert: true });
-  }
 
   render() {
     const {

@@ -22,7 +22,8 @@
     "react-ionicons": "^1.4.6",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.3",
-    "recompose": "^0.17.0"
+    "recompose": "^0.17.0",
+    "redux": "^4.0.5"
   },
   "scripts": {
     "start": "react-scripts start",

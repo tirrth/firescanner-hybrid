@@ -3,7 +3,7 @@ import { IonAlert } from "@ionic/react";
 import SubjectList from "../subjectList";
 
 import "./classroom.css";
-import CollegeJSON from "../../CollegeList.json";
+// import CollegeJSON from "../../CollegeList.json";
 
 import { withRouter } from "react-router-dom";
 
@@ -139,6 +139,7 @@ var xDown = null;
 var yDown = null;
 
 class ClassroomSection extends Component {
+  unsubscribeToReduxStore = () => null;
   constructor(props) {
     super(props);
 
@@ -164,6 +165,7 @@ class ClassroomSection extends Component {
     weekday[4] = "Thursday";
     weekday[5] = "Friday";
     weekday[6] = "Saturday";
+
     this.state = {
       ...INITIAL_STATE_ADD_CLASS_INPUTS,
       ...INITIAL_STATE_CLASSROOM_SECTION,
@@ -177,10 +179,7 @@ class ClassroomSection extends Component {
       fac_college_name: JSON.parse(localStorage.getItem("authUser")).college,
       fac_access_code: JSON.parse(localStorage.getItem("authUser")).access_code,
       facAuthID: JSON.parse(localStorage.getItem("authUser")).uid,
-      course_list: CollegeJSON.find(
-        (college) =>
-          college.name === JSON.parse(localStorage.getItem("authUser")).college
-      ).courses,
+      course_list: [],
       stu_college_name: JSON.parse(localStorage.getItem("authUser")).college,
       stu_dept: JSON.parse(localStorage.getItem("authUser")).department,
       stu_sem: JSON.parse(localStorage.getItem("authUser")).semester,
@@ -205,7 +204,25 @@ class ClassroomSection extends Component {
     this.removeAllStudents = React.createRef();
   }
 
+  _setCourseListState = () => {
+    const { college_list } = window.store?.getState();
+    const userCollegeInfo = college_list.find(
+      (college) =>
+        college.name === JSON.parse(localStorage.getItem("authUser")).college
+    );
+    const course_list = userCollegeInfo?.courses;
+    course_list &&
+      Array.isArray(course_list) &&
+      course_list.length &&
+      this.setState({ course_list });
+  };
+
   componentDidMount() {
+    this._setCourseListState();
+    this.unsubscribeToReduxStore = window.store?.subscribe(() => {
+      this._setCourseListState();
+    });
+
     this._isMounted = true;
 
     try {
@@ -409,6 +426,7 @@ class ClassroomSection extends Component {
   }
 
   componentWillUnmount() {
+    this.unsubscribeToReduxStore();
     this._isMounted = false;
     try {
       this.props.firebase.db.goOffline();
@@ -793,74 +811,84 @@ class ClassroomSection extends Component {
 
     var studentListTotalNo;
 
-    var studentListInvalidFeildNo = 0;
+    var studentListInvalidFieldNo = 0;
 
     var studentList = [];
 
     this.props.firebase
       .studentList(this.state.fac_college_name)
-      .orderByChild("enrolment_no")
-      .on("child_added", (snapshot) => {
-        var stu_info = snapshot.val();
-        if (
-          stu_info.department === current_subData.department &&
-          stu_info.division === current_subData.division &&
-          stu_info.semester === current_subData.semester &&
-          stu_info.shift === current_subData.shift
-        ) {
-          var stu_uid = snapshot.key;
-
+      .on("value", (snapshot) => {
+        if (snapshot.numChildren()) {
           this.props.firebase
-            .userAuthorization(stu_uid)
-            .once("value", (snapshot) => {
-              if (snapshot.val().emailVerified) {
-                this.props.firebase
-                  .studentLengthAttendance(
-                    this.state.fac_college_name,
-                    this.state.authUser.uid,
-                    current_subKey,
-                    stu_uid
-                  )
-                  .once("value", (snapshot) => {
-                    const addedStu = snapshot.val();
+            .studentList(this.state.fac_college_name)
+            .orderByChild("enrolment_no")
+            .on("child_added", (snapshot) => {
+              var stu_info = snapshot.val();
+              if (
+                stu_info.department === current_subData.department &&
+                stu_info.division === current_subData.division &&
+                stu_info.semester === current_subData.semester &&
+                stu_info.shift === current_subData.shift
+              ) {
+                var stu_uid = snapshot.key;
 
-                    if (addedStu) {
-                      studentList.push({
-                        name: stu_info.name,
-                        enrolment_no: stu_info.enrolment_no,
-                        uid: stu_uid,
-                        added: true,
-                      });
-                      this.setState({
-                        isSpinnerHide: true,
-                        studentList: studentList,
-                      });
+                this.props.firebase
+                  .userAuthorization(stu_uid)
+                  .once("value", (snapshot) => {
+                    if (snapshot.val().emailVerified) {
+                      this.props.firebase
+                        .studentLengthAttendance(
+                          this.state.fac_college_name,
+                          this.state.authUser.uid,
+                          current_subKey,
+                          stu_uid
+                        )
+                        .once("value", (snapshot) => {
+                          const addedStu = snapshot.val();
+
+                          if (addedStu) {
+                            studentList.push({
+                              name: stu_info.name,
+                              enrolment_no: stu_info.enrolment_no,
+                              uid: stu_uid,
+                              added: true,
+                            });
+                            this.setState({
+                              isSpinnerHide: true,
+                              studentList: studentList,
+                            });
+                          } else {
+                            studentList.push({
+                              name: stu_info.name,
+                              enrolment_no: stu_info.enrolment_no,
+                              uid: stu_uid,
+                              added: false,
+                            });
+                            this.setState({
+                              isSpinnerHide: true,
+                              studentList: studentList,
+                            });
+                          }
+                        });
                     } else {
-                      studentList.push({
-                        name: stu_info.name,
-                        enrolment_no: stu_info.enrolment_no,
-                        uid: stu_uid,
-                        added: false,
-                      });
-                      this.setState({
-                        isSpinnerHide: true,
-                        studentList: studentList,
-                      });
+                      this.setState({ isSpinnerHide: true, studentList: [] });
                     }
                   });
+              } else {
+                this.props.firebase
+                  .studentList(this.state.fac_college_name)
+                  .once("value", (snapshot) => {
+                    studentListTotalNo = snapshot.numChildren();
+                  });
+
+                studentListInvalidFieldNo = studentListInvalidFieldNo + 1;
+                if (studentListInvalidFieldNo === studentListTotalNo) {
+                  this.setState({ isSpinnerHide: true, studentList: [] });
+                }
               }
             });
         } else {
-          this.props.firebase
-            .studentList(this.state.fac_college_name)
-            .once("value", (snapshot) => {
-              studentListTotalNo = snapshot.numChildren();
-            });
-
-          studentListInvalidFeildNo = studentListInvalidFeildNo + 1;
-          if (studentListInvalidFeildNo === studentListTotalNo) {
-            this.setState({ isSpinnerHide: true, studentList: null });
-          }
+          this.setState({ isSpinnerHide: true });
         }
       });
 
@@ -1735,7 +1763,7 @@ class ClassroomSection extends Component {
                   className={
                     !this.state.isToggle
                       ? "editBarAddBtnIcon"
-                      : "editBarAddBtnIcon rotate"
+                      : "editBarAddBtnIcon rotateAddClassBtnIcon"
                   }
                 />
               </div>
@@ -1922,8 +1950,11 @@ class ClassroomSection extends Component {
               {this.state.currentSubName.sub_room === "lab" && roomLabTag}
             </div>
             <div className="addStudents">
-              {!this.state.isSpinnerHide && <Spinner size="32px" />}
-              {this.state.studentList !== null ? (
+              {!this.state.isSpinnerHide ? (
+                <Spinner size="32px" />
+              ) : this.state.studentList &&
+                Array.isArray(this.state.studentList) &&
+                this.state.studentList.length ? (
                 this.state.studentList.map((student) => {
                   return (
                     <div
