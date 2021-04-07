@@ -10,12 +10,6 @@ import { compose } from "recompose";
 import FacultyImg from "../../images/student.png";
 
 import Ionicon from "react-ionicons";
-// import HomeIcon from "react-ionicons/lib/MdCode";
-// import ProfileIcon from "react-ionicons/lib/MdHappy";
-// import AnalyticsIcon from "react-ionicons/lib/MdInfinite";
-// import IdCardIcon from "react-ionicons/lib/MdCard";
-// import FeedbackIcon from "react-ionicons/lib/MdGitCommit";
-// import LogOutIcon from "react-ionicons/lib/MdLogOut";
 
 import { withFirebase } from "../Configuration";
 import "./menu.css";
@@ -76,7 +70,7 @@ export class Menu extends Component {
                     .then(() => {
                       this.props.history.push(ROUTES.SIGN_IN);
                       localStorage.removeItem("authUser");
-                      window.location.reload(true);
+                      window.location.reload();
                     })
                     .catch((error) => {
                       this.setState({ error: error.message });

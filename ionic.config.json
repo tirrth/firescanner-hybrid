@@ -1,0 +1,7 @@
+{
+  "name": "firescanner",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

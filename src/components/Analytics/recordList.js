@@ -10,8 +10,6 @@ import { withRouter } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { PDFExport } from "@progress/kendo-react-pdf";
-
 import * as ROUTES from "../../constants/routes";
 import { cipher } from "../../encryption/cipher-encrypt";
 
@@ -20,6 +18,7 @@ class recordList extends Component {
     super(props);
 
     this._isMounted = false;
+    this._file = File;
 
     this.state = {
       fac_college_name: JSON.parse(localStorage.getItem("authUser")).college,
@@ -175,7 +174,6 @@ class recordList extends Component {
                     this.state.presentStudentsConfirmation &&
                     stuAttendance === "present"
                   ) {
-                    console.log("p");
                     this.recordListSectionMainTableRowPresent.appendChild(
                       recordListSectionMainTableRow
                     );
@@ -259,186 +257,184 @@ class recordList extends Component {
               handler: () => {
                 if (this.state.showAlertConfirmationPDF) {
                   if (this.state.presentStudentsConfirmation) {
-                    // this.props.history.push({
-                    //   pathname: "/download/analytics",
-                    //   state: {
-                    //     ...this.state.cipher_info,
-                    //     export_present: true,
-                    //   },
-                    // });
-                    const encoded_base64 = window.btoa(
-                      JSON.stringify({
+                    this.props.history.push({
+                      pathname: "/download/analytics",
+                      state: {
                         ...this.state.cipher_info,
                         export_present: true,
-                        export_absent: false,
-                      })
-                    );
-                    this.props.history.push({
-                      pathname: "/api/download/analytics/" + encoded_base64,
+                      },
                     });
+
+                    // ------------------ API call ------------------ //
+                    // const encoded_base64 = window.btoa(
+                    //   JSON.stringify({
+                    //     ...this.state.cipher_info,
+                    //     export_present: true,
+                    //     export_absent: false,
+                    //   })
+                    // );
+                    // this.props.history.push({
+                    //   pathname: "/api/download/analytics/" + encoded_base64,
+                    // });
+                    // ------------------ (EXIT) API call ------------------ //
                   } else if (this.state.absentStudentsConfirmation) {
-                    // this.props.history.push({
-                    //   pathname: "/download/analytics",
-                    //   state: { ...this.state.cipher_info, export_absent: true },
-                    // });
-                    const encoded_base64 = window.btoa(
-                      JSON.stringify({
+                    this.props.history.push({
+                      pathname: "/download/analytics",
+                      state: {
                         ...this.state.cipher_info,
-                        export_present: false,
                         export_absent: true,
-                      })
-                    );
-                    this.props.history.push({
-                      pathname: "/api/download/analytics/" + encoded_base64,
+                      },
                     });
-                  } else if (this.state.allStudentsConfirmation) {
+
+                    // ------------------ API call ------------------ //
+                    // const encoded_base64 = window.btoa(
+                    //   JSON.stringify({
+                    //     ...this.state.cipher_info,
+                    //     export_present: false,
+                    //     export_absent: true,
+                    //   })
+                    // );
                     // this.props.history.push({
-                    //   pathname: "/download/analytics",
-                    //   state: this.state.cipher_info,
+                    //   pathname: "/api/download/analytics/" + encoded_base64,
                     // });
-                    const encoded_base64 = window.btoa(
-                      JSON.stringify(this.state.cipher_info)
-                    );
+                    // ------------------ (EXIT) API call ------------------ //
+                  } else if (this.state.allStudentsConfirmation) {
                     this.props.history.push({
-                      pathname: "/api/download/analytics/" + encoded_base64,
+                      pathname: "/download/analytics",
+                      state: this.state.cipher_info,
                     });
+
+                    // ------------------ API call ------------------ //
+                    // const encoded_base64 = window.btoa(
+                    //   JSON.stringify(this.state.cipher_info)
+                    // );
+                    // this.props.history.push({
+                    //   pathname: "/api/download/analytics/" + encoded_base64,
+                    // });
+                    // ------------------ (EXIT) API call ------------------ //
                   }
                 } else if (this.state.showAlertExitDoc) {
                   this.props.history.push(ROUTES.ANALYTICS);
-                  window.location.reload(true);
+                  window.location.reload();
                 }
               },
             },
           ]}
         />
 
-        <PDFExport
-          //es6 way to give reference
-          ref={(component) => (this.pdfExportComponent = component)}
-          paperSize="auto"
-          margin={40}
-          fileName={`Attendance Report of ${this.state.facSub} (${
-            this.props.facdate.toString().split("T")[0]
-          })`}
-        >
-          <div className="recordListPDFInfoMain" id="divToPrint">
-            <div className="recordListPDFInfo">
-              <div className="recordListSectionMainInfo">
-                <div className="recordListSectionMainInfoDR">
-                  {/* <div className="recordListSectionMainInfoDate">
+        <div className="recordListPDFInfoMain">
+          <div className="recordListPDFInfo">
+            <div className="recordListSectionMainInfo">
+              <div className="recordListSectionMainInfoDR">
+                {/* <div className="recordListSectionMainInfoDate">
                     <p>Date: </p>
                     <p style={{ marginLeft: `6px` }}>
                       {timestamp_utc.split(" ")[0]}
                     </p>
                   </div> */}
-                  {this.props.facdate.toString().split("T").length && (
-                    <div className="recordListSectionMainInfoDate">
-                      <p></p>
-                      <p style={{ marginLeft: `6px` }}>
-                        {/* {this.props.facdate.toString().slice(0, 2) +
+                {this.props.facdate.toString().split("T").length && (
+                  <div className="recordListSectionMainInfoDate">
+                    <p></p>
+                    <p style={{ marginLeft: `6px` }}>
+                      {/* {this.props.facdate.toString().slice(0, 2) +
                         "/" +
                         this.props.facdate.toString().slice(2, 4) +
                         "/" +
                         this.props.facdate.toString().slice(4)} */}
-                        {timestamp_utc.replace("GMT", "")}
-                      </p>
-                    </div>
-                  )}
-                  {/* <div className="recordListSectionMainInfoRandom">
+                      {timestamp_utc.replace("GMT", "")}
+                    </p>
+                  </div>
+                )}
+                {/* <div className="recordListSectionMainInfoRandom">
                     <p>Random No.: </p>
                     <p style={{ marginLeft: `6px` }}>{this.props.facrandom}</p>
                   </div> */}
-                  {/* <div className="recordListSectionMainInfoRoom">
+                {/* <div className="recordListSectionMainInfoRoom">
                     <p>Room: </p>
                     <p style={{ marginLeft: `6px` }}>{this.state.facRoom}</p>
                   </div> */}
-                </div>
-                <div className="recordListSectionMainInfoClg">
-                  {this.state.fac_college_name}
-                </div>
-                <div className="recordListSectionMainInfoRest">
-                  <div className="recordListSectionMainInfoDSDS">
-                    <div className="recordListSectionMainInfoFac">
-                      <p>Faculty Name: </p>
-                      <p style={{ marginLeft: `6px` }}>{this.state.facName}</p>
-                    </div>
-                    <div className="recordListSectionMainInfoDept">
-                      <p>Department: </p>
-                      <p
-                        style={{
-                          marginLeft: `6px`,
-                          textTransform: `capitalize`,
-                        }}
-                      >
-                        {this.state.facDept}
-                      </p>
-                    </div>
-                    <div className="recordListSectionMainInfoSub">
-                      <p>Subject: </p>
-                      <p style={{ marginLeft: `6px` }}>
-                        {this.state.facSub} - {this.state.facRoom}
-                      </p>
-                    </div>
-                    <div className="recordListSectionMainInfoSemDivShift">
-                      <p>Semester/Division/Shift: </p>
-                      <p
-                        style={{ marginLeft: `6px` }}
-                      >{`${this.state.facSem}/${this.state.facDiv}/${this.state.facShift}`}</p>
-                    </div>
+              </div>
+              <div className="recordListSectionMainInfoClg">
+                {this.state.fac_college_name}
+              </div>
+              <div className="recordListSectionMainInfoRest">
+                <div className="recordListSectionMainInfoDSDS">
+                  <div className="recordListSectionMainInfoFac">
+                    <p>Faculty Name: </p>
+                    <p style={{ marginLeft: `6px` }}>{this.state.facName}</p>
                   </div>
-                  <div className="recordListSectionMainInfoTPA">
-                    <div className="recordListSectionMainInfoTotal">
-                      <p>Total Students: </p>
-                      <p style={{ marginLeft: `6px` }}>{this.state.totalStu}</p>
-                    </div>
-                    <div className="recordListSectionMainInfoPresent">
-                      <p>Present: </p>
-                      <p style={{ marginLeft: `6px` }}>
-                        {this.state.presentStu}
-                      </p>
-                    </div>
-                    <div className="recordListSectionMainInfoAbsent">
-                      <p>Absent:</p>
-                      <p style={{ marginLeft: `6px` }}>
-                        {this.state.absentStu}
-                      </p>
-                    </div>
+                  <div className="recordListSectionMainInfoDept">
+                    <p>Department: </p>
+                    <p
+                      style={{
+                        marginLeft: `6px`,
+                        textTransform: `capitalize`,
+                      }}
+                    >
+                      {this.state.facDept}
+                    </p>
+                  </div>
+                  <div className="recordListSectionMainInfoSub">
+                    <p>Subject: </p>
+                    <p style={{ marginLeft: `6px` }}>
+                      {this.state.facSub} - {this.state.facRoom}
+                    </p>
+                  </div>
+                  <div className="recordListSectionMainInfoSemDivShift">
+                    <p>Semester/Division/Shift: </p>
+                    <p
+                      style={{ marginLeft: `6px` }}
+                    >{`${this.state.facSem}/${this.state.facDiv}/${this.state.facShift}`}</p>
+                  </div>
+                </div>
+                <div className="recordListSectionMainInfoTPA">
+                  <div className="recordListSectionMainInfoTotal">
+                    <p>Total Students: </p>
+                    <p style={{ marginLeft: `6px` }}>{this.state.totalStu}</p>
+                  </div>
+                  <div className="recordListSectionMainInfoPresent">
+                    <p>Present: </p>
+                    <p style={{ marginLeft: `6px` }}>{this.state.presentStu}</p>
+                  </div>
+                  <div className="recordListSectionMainInfoAbsent">
+                    <p>Absent:</p>
+                    <p style={{ marginLeft: `6px` }}>{this.state.absentStu}</p>
                   </div>
                 </div>
               </div>
-
-              <table>
-                <thead>
-                  <tr>
-                    <th>Sr.</th>
-                    <th>Name</th>
-                    <th>Enrollment No.</th>
-                  </tr>
-                </thead>
-
-                {this.state.allStudentsConfirmation && (
-                  <tbody ref={this.recordListSectionMainTableRow}></tbody>
-                )}
-
-                {this.state.presentStudentsConfirmation && (
-                  <tbody
-                    ref={(present) =>
-                      (this.recordListSectionMainTableRowPresent = present)
-                    }
-                  ></tbody>
-                )}
-
-                {this.state.absentStudentsConfirmation && (
-                  <tbody
-                    ref={(absent) =>
-                      (this.recordListSectionMainTableRowAbsent = absent)
-                    }
-                  ></tbody>
-                )}
-              </table>
             </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Sr.</th>
+                  <th>Name</th>
+                  <th>Enrollment No.</th>
+                </tr>
+              </thead>
+
+              {this.state.allStudentsConfirmation && (
+                <tbody ref={this.recordListSectionMainTableRow}></tbody>
+              )}
+
+              {this.state.presentStudentsConfirmation && (
+                <tbody
+                  ref={(present) =>
+                    (this.recordListSectionMainTableRowPresent = present)
+                  }
+                ></tbody>
+              )}
+
+              {this.state.absentStudentsConfirmation && (
+                <tbody
+                  ref={(absent) =>
+                    (this.recordListSectionMainTableRowAbsent = absent)
+                  }
+                ></tbody>
+              )}
+            </table>
           </div>
-        </PDFExport>
+        </div>
         <div className="recordListSectionMainEPBtn">
           <div
             onClick={this.PDFExportPresent}

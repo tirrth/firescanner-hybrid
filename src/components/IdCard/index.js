@@ -3,7 +3,7 @@ import "./idcard.css";
 import ProfilePic from "../../images/profile.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Menu from "../menu";
-import { IonAlert } from "@ionic/react";
+import { IonAlert, isPlatform } from "@ionic/react";
 
 import { PDFExport } from "@progress/kendo-react-pdf";
 
@@ -114,7 +114,7 @@ export default class index extends Component {
           hamburgerToggle={this.hamburgerToggle}
           isToggleHamburger={this.state.isToggleHamburger}
           name={`ID Card`}
-          NavBarSliderDesktop={true}
+          NavBarSliderDesktop={!isPlatform("android")}
         />
         <div className="IdCardContainer">
           <div className="id-card-tag"></div>

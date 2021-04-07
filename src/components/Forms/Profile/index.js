@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { IonAlert } from "@ionic/react";
+import { IonAlert, isPlatform } from "@ionic/react";
 
 import { Link } from "react-router-dom";
 import * as ROUTES from "../../../constants/routes";
@@ -286,7 +286,7 @@ class ProfilePageBase extends Component {
           hamburgerToggle={this.hamburgerToggle}
           isToggleHamburger={this.state.isToggleHamburger}
           name={`Profile`}
-          NavBarSliderDesktop={true}
+          NavBarSliderDesktop={!isPlatform("android")}
         />
         <div
           className={

@@ -9,13 +9,20 @@ import Spinner from "../spinner";
 import { PDFExport } from "@progress/kendo-react-pdf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as ROUTES from "../../constants/routes";
-import { IonAlert } from "@ionic/react";
+import { IonAlert, isPlatform } from "@ionic/react";
+
+import jsPDF from "jspdf";
+import * as html2canvas from "html2canvas";
+import { File } from "@ionic-native/file";
+import { FileOpener } from "@ionic-native/file-opener";
 
 class AnalyticsExport extends Component {
   constructor(props) {
     super(props);
 
     this._isMounted = false;
+    this._file = File;
+    this._fileOpener = FileOpener;
 
     this.state = {
       fac_college_name: JSON.parse(localStorage.getItem("authUser")).college,
@@ -45,13 +52,16 @@ class AnalyticsExport extends Component {
       absentStudentsConfirmation: false,
 
       data_export_state: {},
+
+      is_pdf_export_loading: false,
+      is_pdf_present_export_loading: false,
+      is_pdf_absent_export_loading: false,
     };
 
     this.recordListSectionMainTableRow = React.createRef();
   }
 
   componentDidMount() {
-    console.log(this.props, "Executes!!!");
     this._getComponentData();
   }
 
@@ -174,24 +184,22 @@ class AnalyticsExport extends Component {
                     this.recordListSectionMainTableRow?.current.appendChild(
                       recordListSectionMainTableRow
                     );
-                  } else {
-                    if (
-                      data_export_state.export_present &&
-                      stuAttendance === "present"
-                    ) {
-                      sr_no = sr_no + 1;
-                      this.recordListSectionMainTableRowPresent.appendChild(
-                        recordListSectionMainTableRow
-                      );
-                    } else if (
-                      data_export_state.export_absent &&
-                      stuAttendance === "absent"
-                    ) {
-                      sr_no = sr_no + 1;
-                      this.recordListSectionMainTableRowAbsent.appendChild(
-                        recordListSectionMainTableRow
-                      );
-                    }
+                  } else if (
+                    data_export_state.export_present &&
+                    stuAttendance === "present"
+                  ) {
+                    sr_no = sr_no + 1;
+                    this.recordListSectionMainTableRowPresent.appendChild(
+                      recordListSectionMainTableRow
+                    );
+                  } else if (
+                    data_export_state.export_absent &&
+                    stuAttendance === "absent"
+                  ) {
+                    sr_no = sr_no + 1;
+                    this.recordListSectionMainTableRowAbsent.appendChild(
+                      recordListSectionMainTableRow
+                    );
                   }
                 }
               });
@@ -199,7 +207,11 @@ class AnalyticsExport extends Component {
             this.setState({ presentStu: presentStu });
             this.setState({ absentStu: absentStu });
             this.setState({ isLoading: false }, () => {
-              this.pdfExportComponent.save();
+              if (isPlatform("android")) {
+                this._generateNativePdf();
+              } else {
+                this.pdfExportComponent.save();
+              }
               // this.props.history.goBack();
             });
           }
@@ -209,6 +221,129 @@ class AnalyticsExport extends Component {
 
   componentWillUnmount() {
     this._isMounted = false;
+  }
+
+  _generateNativePdf() {
+    const { data_export_state } = this.state;
+    if (data_export_state.export_present) {
+      this.setState({ is_pdf_present_export_loading: true });
+    } else if (data_export_state.export_absent) {
+      this.setState({ is_pdf_absent_export_loading: true });
+    } else {
+      this.setState({ is_pdf_export_loading: true });
+    }
+
+    const div = document.getElementById("divToPrint");
+    const options = {
+      background: "white",
+      height: div.clientHeight,
+      width: div.clientWidth,
+    };
+
+    html2canvas(div, options).then(async (canvas) => {
+      //Initialize JSPDF
+      var doc = new jsPDF("p", "px", "a4");
+      //Converting canvas to Image
+      let imgData = canvas.toDataURL("image/png");
+      //Add image Canvas to PDF
+      doc.addImage(imgData, "png", 20, 20, div.clientWidth, div.clientHeight);
+
+      let pdfOutput = doc.output();
+
+      const isFileNameExists = (file_directory_path, fileName) => {
+        return this._file.checkFile(file_directory_path, fileName);
+      };
+
+      const _getFileName = async (
+        file_directory_path,
+        file_name_replacement_count = 0
+      ) => {
+        const fileName = `Attendance Report of ${this.state.facSub} (${
+          this.props.attendance_date.toString().split("T")[0]
+        })${
+          file_name_replacement_count ? "_" + file_name_replacement_count : ""
+        }.pdf`;
+
+        return isFileNameExists(file_directory_path, fileName)
+          .then(async (is_exists) =>
+            is_exists
+              ? await _getFileName(
+                  file_directory_path,
+                  file_name_replacement_count + 1
+                )
+              : fileName
+          )
+          .catch((err) => {
+            console.log("Error: " + JSON.stringify({ err }));
+            return fileName;
+          });
+      };
+
+      const _downloadNativeFile = (
+        base_directory_path,
+        working_directory_name,
+        fileName,
+        buffer
+      ) => {
+        this._file
+          .checkDir(base_directory_path, working_directory_name)
+          .then((is_exists) => {
+            if (is_exists) {
+              //This is where the PDF file will get stored , you can change it as you like
+              // for more information please visit https://ionicframework.com/docs/native/file/
+              const directory_path = `${base_directory_path}${working_directory_name}`;
+
+              //Writing File to Device
+              this._file
+                .writeFile(directory_path, fileName, buffer, { replace: true })
+                .then((success) => {
+                  console.log("File created Successfully!!", success);
+
+                  this._fileOpener
+                    .open(`${directory_path}/${fileName}`, "application/pdf")
+                    .then(() => console.log("File is opened"))
+                    .catch((e) => console.log("Error opening file", e));
+                })
+                .catch((error) => console.log("Cannot create File!!", error))
+                .finally(() =>
+                  this.setState({
+                    is_pdf_absent_export_loading: false,
+                    is_pdf_present_export_loading: false,
+                    is_pdf_export_loading: false,
+                  })
+                );
+            }
+          })
+          .catch((err) => {
+            console.log("Error: ", err);
+            this._file
+              .createDir(base_directory_path, working_directory_name, true)
+              .then(() => {
+                _downloadNativeFile(
+                  base_directory_path,
+                  working_directory_name,
+                  fileName,
+                  buffer
+                );
+              })
+              .catch((err) => console.log("Error: ", err));
+          });
+      };
+
+      const base_dir_path = this._file.externalRootDirectory;
+      const working_dir_name = "FireScanner";
+      const fileName = await _getFileName(
+        `${base_dir_path}${working_dir_name}/`
+      );
+
+      // using ArrayBuffer will allow you to put image inside PDF
+      let buffer = new ArrayBuffer(pdfOutput.length);
+      let array = new Uint8Array(buffer);
+      for (var i = 0; i < pdfOutput.length; i++) {
+        array[i] = pdfOutput.charCodeAt(i);
+      }
+      _downloadNativeFile(base_dir_path, working_dir_name, fileName, buffer);
+    });
   }
 
   recordListSectionMainExitBtn = () => {
@@ -310,7 +445,7 @@ class AnalyticsExport extends Component {
                     }
                   } else if (this.state.showAlertExitDoc) {
                     this.props.history.push(ROUTES.ANALYTICS);
-                    // window.location.reload();
+                    window.location.reload();
                   }
                 },
               },
@@ -446,24 +581,60 @@ class AnalyticsExport extends Component {
           </PDFExport>
           <div className="recordListSectionMainEPBtn">
             <div
-              onClick={this.PDFExportPresent}
+              onClick={
+                this.state.is_pdf_absent_export_loading ||
+                this.state.is_pdf_present_export_loading ||
+                this.state.is_pdf_export_loading
+                  ? () => null
+                  : this.PDFExportPresent
+              }
               className="recordListSectionMainPresentBtn"
               style={{ fontWeight: `800` }}
             >
-              P
+              {!this.state.is_pdf_present_export_loading ? (
+                "P"
+              ) : (
+                <div style={{ marginTop: "2px", marginLeft: "1px" }}>
+                  <Spinner color="#FFFFFF" size="28px" />
+                </div>
+              )}
             </div>
             <div
-              onClick={this.PDFExportAbsent}
+              onClick={
+                this.state.is_pdf_absent_export_loading ||
+                this.state.is_pdf_present_export_loading ||
+                this.state.is_pdf_export_loading
+                  ? () => null
+                  : this.PDFExportAbsent
+              }
               className="recordListSectionMainAbsentBtn"
               style={{ fontWeight: `800` }}
             >
-              A
+              {!this.state.is_pdf_absent_export_loading ? (
+                "A"
+              ) : (
+                <div style={{ marginTop: "2px", marginLeft: "1px" }}>
+                  <Spinner color="#FFFFFF" size="28px" />
+                </div>
+              )}
             </div>
             <div
               className="recordListSectionMainPrintBtn"
-              onClick={this.exportPDF}
+              onClick={
+                this.state.is_pdf_absent_export_loading ||
+                this.state.is_pdf_present_export_loading ||
+                this.state.is_pdf_export_loading
+                  ? () => null
+                  : this.exportPDF
+              }
             >
-              <FontAwesomeIcon icon="print" />
+              {!this.state.is_pdf_export_loading ? (
+                <FontAwesomeIcon icon="print" />
+              ) : (
+                <div style={{ marginTop: "2px", marginLeft: "1px" }}>
+                  <Spinner color="#FFFFFF" size="28px" />
+                </div>
+              )}
             </div>
             <div
               className="recordListSectionMainExitBtn"
