@@ -8,6 +8,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.29",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@fortawesome/react-fontawesome": "^0.1.11",
+    "@ionic-native/core": "^5.32.0",
     "@ionic-native/file": "^5.32.0",
     "@ionic-native/file-opener": "^5.32.0",
     "@ionic/react": "^5.3.1",
