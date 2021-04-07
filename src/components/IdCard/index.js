@@ -7,7 +7,7 @@ import { IonAlert, isPlatform } from "@ionic/react";
 
 import { PDFExport } from "@progress/kendo-react-pdf";
 
-var Barcode = require("react-barcode");
+const Barcode = require("react-barcode");
 
 var xDown = null;
 var yDown = null;
@@ -56,13 +56,13 @@ export default class index extends Component {
     var yDiff = yDown - yUp;
 
     if (Math.abs(xDiff) > Math.abs(yDiff)) {
-      /*most significant*/
+      /* most significant */
       if (xDiff > 0) {
         /* left swipe */
         this.setState({ isToggleHamburger: false });
       } else {
         if (xDown <= 40) {
-          /* rigth swipe */
+          /* right swipe */
           this.setState({ isToggleHamburger: true });
         }
       }
@@ -163,7 +163,10 @@ export default class index extends Component {
                   </div>
 
                   <Barcode
-                    value={this.state.authUser.enrolment_no}
+                    value={
+                      this.state.authUser?.enrolment_no ||
+                      "Did you just hack this PWA!?😮🥺🤫"
+                    }
                     height={30}
                     width={2}
                     displayValue={false}
@@ -175,12 +178,14 @@ export default class index extends Component {
             </PDFExport>
           </div>
         </div>
-        <div className="IdCardBtn">
-          <div className="id-card-download" onClick={this.onIdCardDownload}>
-            <FontAwesomeIcon icon="download" />
-            <div>Download</div>
+        {!isPlatform("android") && (
+          <div className="IdCardBtn">
+            <div className="id-card-download" onClick={this.onIdCardDownload}>
+              <FontAwesomeIcon icon="download" />
+              <div>Download</div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     );
   }

@@ -2,9 +2,9 @@
   "files": {
     "static/js/0.284a2879.chunk.js": "/static/js/0.284a2879.chunk.js",
     "static/js/0.284a2879.chunk.js.map": "/static/js/0.284a2879.chunk.js.map",
-    "main.css": "/static/css/main.b5988bf3.chunk.css",
-    "main.js": "/static/js/main.eb60859a.chunk.js",
-    "main.js.map": "/static/js/main.eb60859a.chunk.js.map",
+    "main.css": "/static/css/main.a417f27a.chunk.css",
+    "main.js": "/static/js/main.220414c2.chunk.js",
+    "main.js.map": "/static/js/main.220414c2.chunk.js.map",
     "polyfills-css-shim.js": "/static/js/polyfills-css-shim.5688ae68.chunk.js",
     "polyfills-css-shim.js.map": "/static/js/polyfills-css-shim.5688ae68.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.df03f08e.js",
@@ -126,7 +126,7 @@
     "static/js/60.fa96f34a.chunk.js.map": "/static/js/60.fa96f34a.chunk.js.map",
     "index.html": "/index.html",
     "static/css/4.ece1eff0.chunk.css.map": "/static/css/4.ece1eff0.chunk.css.map",
-    "static/css/main.b5988bf3.chunk.css.map": "/static/css/main.b5988bf3.chunk.css.map",
+    "static/css/main.a417f27a.chunk.css.map": "/static/css/main.a417f27a.chunk.css.map",
     "static/js/15.f4bdff8e.chunk.js.LICENSE.txt": "/static/js/15.f4bdff8e.chunk.js.LICENSE.txt",
     "static/js/4.085f872c.chunk.js.LICENSE.txt": "/static/js/4.085f872c.chunk.js.LICENSE.txt",
     "static/js/5.1df79c79.chunk.js.LICENSE.txt": "/static/js/5.1df79c79.chunk.js.LICENSE.txt",
@@ -137,7 +137,7 @@
     "static/media/content_error.d756c5ee.svg": "/static/media/content_error.d756c5ee.svg",
     "static/media/faculty_banner.9db536d9.png": "/static/media/faculty_banner.9db536d9.png",
     "static/media/loginbanner.0b01f079.png": "/static/media/loginbanner.0b01f079.png",
-    "static/media/profile.11020d67.png": "/static/media/profile.11020d67.png",
+    "static/media/profile.10691648.png": "/static/media/profile.10691648.png",
     "static/media/something_wrong.17bb636c.gif": "/static/media/something_wrong.17bb636c.gif",
     "static/media/stud_banner.15c236d4.png": "/static/media/stud_banner.15c236d4.png",
     "static/media/idcard.css": "/static/media/zigzag.8b6e184d.png"
@@ -146,7 +146,7 @@
     "static/js/runtime-main.df03f08e.js",
     "static/css/4.ece1eff0.chunk.css",
     "static/js/4.085f872c.chunk.js",
-    "static/css/main.b5988bf3.chunk.css",
-    "static/js/main.eb60859a.chunk.js"
+    "static/css/main.a417f27a.chunk.css",
+    "static/js/main.220414c2.chunk.js"
   ]
 }
