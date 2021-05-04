@@ -169,7 +169,6 @@ class recordList extends Component {
                   this.recordListSectionMainTableRow.current.appendChild(
                     recordListSectionMainTableRow
                   );
-
                   if (
                     this.state.presentStudentsConfirmation &&
                     stuAttendance === "present"
@@ -178,7 +177,6 @@ class recordList extends Component {
                       recordListSectionMainTableRow
                     );
                   }
-
                   if (
                     this.state.absentStudentsConfirmation &&
                     stuAttendance === "absent"

@@ -12,7 +12,8 @@ import * as ROUTES from "../../constants/routes";
 import { IonAlert, isPlatform } from "@ionic/react";
 
 import jsPDF from "jspdf";
-import * as html2canvas from "html2canvas";
+import "jspdf-autotable";
+
 import { File } from "@ionic-native/file";
 import { FileOpener } from "@ionic-native/file-opener";
 
@@ -41,6 +42,7 @@ class AnalyticsExport extends Component {
       totalStu: 0,
       stuEnrollno: 0,
       stuName: "",
+      tableData: [],
 
       showAlertConfirmationPDF: false,
       showAlertExitDoc: false,
@@ -176,6 +178,18 @@ class AnalyticsExport extends Component {
                   recordListSectionMainTableRowName.append(stuName);
                   recordListSectionMainTableRowEn.append(stuEnNo);
 
+                  this.setState({
+                    tableData: [
+                      ...this.state.tableData,
+                      {
+                        stuName,
+                        stuEnNo: `${stuEnNo}`,
+                        sr_no: `${sr_no + 1}.`,
+                        attendance: stuAttendance === "present" ? "P" : "Ab",
+                        is_present: stuAttendance === "present",
+                      },
+                    ],
+                  });
                   if (
                     !data_export_state.export_present &&
                     !data_export_state.export_absent
@@ -233,117 +247,155 @@ class AnalyticsExport extends Component {
       this.setState({ is_pdf_export_loading: true });
     }
 
-    const div = document.getElementById("divToPrint");
-    const options = {
-      background: "white",
-      height: div.clientHeight,
-      width: div.clientWidth,
+    const isFileNameExists = (file_directory_path, fileName) => {
+      return this._file.checkFile(file_directory_path, fileName);
     };
 
-    html2canvas(div, options).then(async (canvas) => {
-      //Initialize JSPDF
-      var doc = new jsPDF("p", "px", "a4");
-      //Converting canvas to Image
-      let imgData = canvas.toDataURL("image/png");
-      //Add image Canvas to PDF
-      doc.addImage(imgData, "png", 20, 20, div.clientWidth, div.clientHeight);
+    const _getFileName = async (
+      file_directory_path,
+      file_name_replacement_count = 0
+    ) => {
+      const fileName = `Attendance Report of ${this.state.facSub} (${
+        this.props.attendance_date.toString().split("T")[0]
+      })${
+        file_name_replacement_count ? "_" + file_name_replacement_count : ""
+      }.pdf`;
 
-      let pdfOutput = doc.output();
+      return isFileNameExists(file_directory_path, fileName)
+        .then(async (is_exists) =>
+          is_exists
+            ? await _getFileName(
+                file_directory_path,
+                file_name_replacement_count + 1
+              )
+            : fileName
+        )
+        .catch((err) => {
+          console.log("Error: " + JSON.stringify({ err }));
+          return fileName;
+        });
+    };
 
-      const isFileNameExists = (file_directory_path, fileName) => {
-        return this._file.checkFile(file_directory_path, fileName);
-      };
+    const _downloadNativeFile = (
+      base_directory_path,
+      working_directory_name,
+      fileName,
+      buffer
+    ) => {
+      this._file
+        .checkDir(base_directory_path, working_directory_name)
+        .then((is_exists) => {
+          if (is_exists) {
+            //This is where the PDF file will get stored , you can change it as you like
+            // for more information please visit https://ionicframework.com/docs/native/file/
+            const directory_path = `${base_directory_path}${working_directory_name}`;
 
-      const _getFileName = async (
-        file_directory_path,
-        file_name_replacement_count = 0
-      ) => {
-        const fileName = `Attendance Report of ${this.state.facSub} (${
-          this.props.attendance_date.toString().split("T")[0]
-        })${
-          file_name_replacement_count ? "_" + file_name_replacement_count : ""
-        }.pdf`;
-
-        return isFileNameExists(file_directory_path, fileName)
-          .then(async (is_exists) =>
-            is_exists
-              ? await _getFileName(
-                  file_directory_path,
-                  file_name_replacement_count + 1
-                )
-              : fileName
-          )
-          .catch((err) => {
-            console.log("Error: " + JSON.stringify({ err }));
-            return fileName;
-          });
-      };
-
-      const _downloadNativeFile = (
-        base_directory_path,
-        working_directory_name,
-        fileName,
-        buffer
-      ) => {
-        this._file
-          .checkDir(base_directory_path, working_directory_name)
-          .then((is_exists) => {
-            if (is_exists) {
-              //This is where the PDF file will get stored , you can change it as you like
-              // for more information please visit https://ionicframework.com/docs/native/file/
-              const directory_path = `${base_directory_path}${working_directory_name}`;
-
-              //Writing File to Device
-              this._file
-                .writeFile(directory_path, fileName, buffer, { replace: true })
-                .then((success) => {
-                  console.log("File created Successfully!!", success);
-
-                  this._fileOpener
-                    .open(`${directory_path}/${fileName}`, "application/pdf")
-                    .then(() => console.log("File is opened"))
-                    .catch((e) => console.log("Error opening file", e));
-                })
-                .catch((error) => console.log("Cannot create File!!", error))
-                .finally(() =>
-                  this.setState({
-                    is_pdf_absent_export_loading: false,
-                    is_pdf_present_export_loading: false,
-                    is_pdf_export_loading: false,
-                  })
-                );
-            }
-          })
-          .catch((err) => {
-            console.log("Error: ", err);
+            //Writing File to Device
             this._file
-              .createDir(base_directory_path, working_directory_name, true)
-              .then(() => {
-                _downloadNativeFile(
-                  base_directory_path,
-                  working_directory_name,
-                  fileName,
-                  buffer
-                );
+              .writeFile(directory_path, fileName, buffer, { replace: true })
+              .then((success) => {
+                console.log("File created Successfully!!", success);
+
+                this._fileOpener
+                  .open(`${directory_path}/${fileName}`, "application/pdf")
+                  .then(() => console.log("File is opened"))
+                  .catch((e) => console.log("Error opening file", e));
               })
-              .catch((err) => console.log("Error: ", err));
+              .catch((error) => console.log("Cannot create File!!", error))
+              .finally(() =>
+                this.setState({
+                  is_pdf_absent_export_loading: false,
+                  is_pdf_present_export_loading: false,
+                  is_pdf_export_loading: false,
+                })
+              );
+          }
+        })
+        .catch((err) => {
+          console.log("Error: ", err);
+          this._file
+            .createDir(base_directory_path, working_directory_name, true)
+            .then(() => {
+              _downloadNativeFile(
+                base_directory_path,
+                working_directory_name,
+                fileName,
+                buffer
+              );
+            })
+            .catch((err) => console.log("Error: ", err));
+        });
+    };
+
+    const attendance_info = document.getElementsByClassName(
+      "recordListSectionMainInfo"
+    )[0];
+    const doc = new jsPDF("portrait", "px", "a4", true);
+    attendance_info &&
+      doc.html(attendance_info, {
+        x: 20,
+        y: 20,
+        callback: async () => {
+          const { tableData: body } = this.state;
+          doc.autoTable({
+            columnStyles: {
+              0: { cellWidth: 50 },
+              3: { cellWidth: 80 },
+            },
+            margin: { top: 10 },
+            showHead: "everyPage",
+            showFoot: "everyPage",
+            columns: [
+              { header: "Sr.", dataKey: "sr_no" },
+              { header: "Name", dataKey: "stuName" },
+              { header: "Enrollment No.", dataKey: "stuEnNo" },
+              { header: "Attendance", dataKey: "attendance" },
+            ],
+            body,
+            didParseCell: (data) => {
+              data.cell.styles.halign = "center";
+              if (data.row.raw.is_present === false) {
+                data.cell.styles.textColor = [255, 99, 71];
+              }
+            },
           });
-      };
+          const base_dir_path = this._file.externalRootDirectory;
+          const working_dir_name = "FireScanner";
+          const fileName = await _getFileName(
+            `${base_dir_path}${working_dir_name}/`
+          );
 
-      const base_dir_path = this._file.externalRootDirectory;
-      const working_dir_name = "FireScanner";
-      const fileName = await _getFileName(
-        `${base_dir_path}${working_dir_name}/`
-      );
+          let pdfOutput = doc.output();
+          let buffer = new ArrayBuffer(pdfOutput.length);
+          // using ArrayBuffer will allow you to put image inside PDF
+          let array = new Uint8Array(buffer);
+          for (var i = 0; i < pdfOutput.length; i++) {
+            array[i] = pdfOutput.charCodeAt(i);
+          }
+          _downloadNativeFile(
+            base_dir_path,
+            working_dir_name,
+            fileName,
+            buffer
+          );
+        },
+      });
 
-      // using ArrayBuffer will allow you to put image inside PDF
-      let buffer = new ArrayBuffer(pdfOutput.length);
-      let array = new Uint8Array(buffer);
-      for (var i = 0; i < pdfOutput.length; i++) {
-        array[i] = pdfOutput.charCodeAt(i);
-      }
-      _downloadNativeFile(base_dir_path, working_dir_name, fileName, buffer);
-    });
+    // doc.autoTable({ html: "#my-table" }); OR ----------------
+
+    // // Example usage of columns property. Note that America will not be included even though it exist in the body since there is no column specified for it.
+    // doc.autoTable({
+    //   styles: { fillColor: [255, 99, 71] },
+    //   columnStyles: { europe: { halign: "center" } }, // European countries centered
+    //   body: [
+    //     { europe: "Sweden", america: "Canada", asia: "China" },
+    //     { europe: "Norway", america: "Mexico", asia: "Japan" },
+    //   ],
+    //   columns: [
+    //     { header: "Europe", dataKey: "europe" },
+    //     { header: "Asia", dataKey: "asia" },
+    //   ],
+    // }); OR ----------------
   }
 
   recordListSectionMainExitBtn = () => {
@@ -531,7 +583,7 @@ class AnalyticsExport extends Component {
                   </div>
                 </div>
 
-                <table>
+                <table id="my-table">
                   <thead>
                     <tr>
                       <th>Sr.</th>
