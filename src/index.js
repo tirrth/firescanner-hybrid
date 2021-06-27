@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+// ---------------------------- ENV Setup ---------------------------- //
+require("dotenv").config();
 
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
