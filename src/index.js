@@ -1,7 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// ---------------------------- ENV Setup ---------------------------- //
-require("dotenv").config();
 
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
@@ -14,6 +12,9 @@ import { Plugins } from "@capacitor/core";
 // ---------------------------- Redux Setup ---------------------------- //
 import store from "./components/redux/store";
 import { addCollegeList } from "./components/redux/actions";
+
+// ---------------------------- ENV Setup ---------------------------- //
+require("dotenv").config();
 
 window.store = store;
 window.addCollegeList = addCollegeList;
