@@ -13,7 +13,7 @@
   "author": "Tirth Patel",
   "license": "MIT",
   "dependencies": {
-    "electron": "^13.1.5"
+    "electron": "^13.3.0"
   },
   "devDependencies": {
     "electron-packager": "^15.2.0"
