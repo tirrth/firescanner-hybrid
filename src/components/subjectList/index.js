@@ -45,7 +45,6 @@ class index extends Component {
         .on("value", (snapshot) => {
           if (this._isMounted) {
             const subjectObject = snapshot.val();
-
             if (subjectObject) {
               const subjectInfo = Object.entries(subjectObject).map(
                 ([key, value]) => ({
@@ -63,7 +62,7 @@ class index extends Component {
             } else {
               this.setState({
                 cssLoader: false,
-                subjectList: null,
+                subjectList: [],
                 NoRecordsHide: false,
               });
 
@@ -79,11 +78,7 @@ class index extends Component {
         .on("value", (snapshot) => {
           if (this._isMounted) {
             const facultyObject = snapshot.val();
-
             if (facultyObject) {
-              const totalFacMemebers = Object.keys(facultyObject).length;
-              var facMembersWithNoSubjects = 0;
-
               var subjectList = [];
 
               for (var facultyList in facultyObject) {
@@ -94,14 +89,6 @@ class index extends Component {
                 if (
                   facultySubjectsFlag.find((element) => element === "subjects")
                 ) {
-                  const totalSubjects = Object.keys(
-                    facultyObject[facultyList].subjects
-                  ).length;
-                  var totalSubjectsWithDifferentFieldsCount = 0;
-
-                  const totalValidSubjects = [];
-                  var totalValidSubjectsHavingNoStudentsCount = 0;
-
                   for (var facultySubjectList in facultyObject[facultyList]
                     .subjects) {
                     if (
@@ -114,9 +101,6 @@ class index extends Component {
                       facultyObject[facultyList].subjects[facultySubjectList]
                         .shift === authUser.shift
                     ) {
-                      totalValidSubjects.push(facultySubjectList);
-                      const totalValidSubjectsCount = totalValidSubjects.length;
-
                       const facultySubjectStudentsFlag = Object.keys(
                         facultyObject[facultyList].subjects[facultySubjectList]
                       );
@@ -150,64 +134,24 @@ class index extends Component {
                             };
 
                             subjectList.push(subjectInfo);
-
-                            this.setState({
-                              cssLoader: false,
-                              subjectList: subjectList,
-                              NoRecordsHide: true,
-                            });
-                            this.props.unclickableToggle(false);
                           }
                         }
-                      } else {
-                        totalValidSubjectsHavingNoStudentsCount =
-                          totalValidSubjectsHavingNoStudentsCount + 1;
-
-                        if (
-                          totalValidSubjectsHavingNoStudentsCount ===
-                          totalValidSubjectsCount
-                        ) {
-                          this.setState({
-                            cssLoader: false,
-                            subjectList: null,
-                            NoRecordsHide: false,
-                          });
-                          this.props.unclickableToggle(false);
-                        }
-                      }
-                    } else {
-                      totalSubjectsWithDifferentFieldsCount =
-                        totalSubjectsWithDifferentFieldsCount + 1;
-
-                      if (
-                        totalSubjectsWithDifferentFieldsCount === totalSubjects
-                      ) {
-                        this.setState({
-                          cssLoader: false,
-                          subjectList: null,
-                          NoRecordsHide: false,
-                        });
-                        this.props.unclickableToggle(false);
                       }
                     }
                   }
-                } else {
-                  facMembersWithNoSubjects = facMembersWithNoSubjects + 1;
-
-                  if (facMembersWithNoSubjects === totalFacMemebers) {
-                    this.setState({
-                      cssLoader: false,
-                      subjectList: null,
-                      NoRecordsHide: false,
-                    });
-                    this.props.unclickableToggle(false);
-                  }
                 }
               }
+
+              this.setState({
+                cssLoader: false,
+                subjectList,
+                NoRecordsHide: !!subjectList.length
+              })
+              this.props.unclickableToggle(false)
             } else {
               this.setState({
                 cssLoader: false,
-                subjectList: null,
+                subjectList: [],
                 NoRecordsHide: false,
               });
               this.props.unclickableToggle(false);
